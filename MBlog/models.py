@@ -6,8 +6,6 @@ from django.contrib.auth.models import User
 class MichiProfile(models.Model):
     """ Model class for MichiProfile, which is a user profile. """
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=False, null=False)
-    username = models.CharField(max_length=50)
-    password = models.CharField(max_length=50)
     nickname = models.CharField(max_length=50)
     hair_color = models.CharField(max_length=50)
     eye_color = models.CharField(max_length=50)

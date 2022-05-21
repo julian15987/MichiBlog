@@ -1,0 +1,53 @@
+:root {
+    --header-height: 3rem;
+    --nav-width: 68px;
+    --first-color: #D1913C;
+    --first-color-light: #FFD194;
+    --white-color: #F7F6FB;
+    --body-font: 'Nunito', sans-serif;
+    --normal-font-size: 1rem;
+    --z-fixed: 100
+}
+
+body{
+  background: red;
+  background: -webkit-linear-gradient(to left, #FFD194, #D1913C);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #FFD194, #D1913C); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+      position: relative;
+    margin: var(--header-height) 0 0 0;
+    padding: 0 1rem;
+    font-family: var(--body-font);
+    font-size: var(--normal-font-size);
+    transition: .5s;
+    color: var(--white-color);
+}
+
+
+#mainNavigation a {
+  font-family: 'Cabin', sans-serif;
+  font-size:14px;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  text-shadow:1px 1px 2px rgba(0,0,0,0.4)
+}
+
+.dropdown-menu {
+  background:var(--first-color)
+}
+a.dropdown-toggle {
+  color:var(--white-color) !important
+}
+a.dropdown-item:hover {
+  color:var(--first-color) !important
+}
+.nav-item a{
+  color:var(--first-color-light);
+}
+.nav-item a:hover {
+  color:var(--white-color)
+}
+.nav-item{
+  min-width:12vw;
+}
+

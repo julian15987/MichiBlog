@@ -4,4 +4,4 @@ from django.shortcuts import render, redirect, HttpResponse
 
 
 def michi_posts(request):
-    return render(request, 'michi_posts.html')
+    return render(request, 'index.html')
