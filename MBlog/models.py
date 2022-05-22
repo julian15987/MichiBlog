@@ -7,9 +7,9 @@ from ckeditor.fields import RichTextField
 class MichiProfile(models.Model):
     """ Model class for MichiProfile, which is a user profile. """
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=False, null=False)
-    nickname = models.CharField(max_length=50)
-    hair_color = models.CharField(max_length=50)
-    eye_color = models.CharField(max_length=50)
+    nickname = models.CharField(max_length=50, blank=True, null=True)
+    hair_color = models.CharField(max_length=50, blank=True, null=True)
+    eye_color = models.CharField(max_length=50, blank=True, null=True)
     birthday = models.DateField(blank=True, null=True)
     profile_picture = models.ImageField(upload_to='profile_pictures', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
