@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+# Imagenes de usuarios
+media/post_pictures/*.*
+media/profile_pictures/*.*
+
 # Distribution / packaging
 .Python
 build/
