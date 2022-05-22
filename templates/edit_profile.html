@@ -10,7 +10,9 @@
         <h1 class="text-center">Ver/Modificar Michi-Profile</h1>
 
         <div class="col-md-12 mt-2 text-center">
-            <img src="/media/{{ request.user.michiprofile.profile_picture }}" alt="" class="img-fluid img-header mx-3">
+            {% if request.user.michiprofile.profile_picture %}
+                <img src="/media/{{ request.user.michiprofile.profile_picture }}" alt="" class="img-fluid img-header mx-3">
+            {% endif %}
             <br>
             {{ form.profile_picture }}
         </div>

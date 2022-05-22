@@ -3,6 +3,7 @@ import datetime
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, HttpResponse
 
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
@@ -36,9 +37,9 @@ def add_posts(request):
             return redirect("/")
 
         if form.is_valid():
-            MichiPost = form.save(commit=False)
-            MichiPost.michi_author = michi_author
-            MichiPost.save()
+            michi_post = form.save(commit=False)
+            michi_post.michi_author = michi_author
+            michi_post.save()
             obj = form.instance
             messages.success(request, 'El MichiPost se agrego al MichiBlog !')
             return redirect("/")
@@ -100,3 +101,22 @@ def edit_profile(request):
         form.fields['erased'].initial = request.user.michiprofile.erased
 
     return render(request, "edit_profile.html", {'form': form})
+
+
+def register(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        email = request.POST['email']
+        password1 = request.POST['password1']
+        password2 = request.POST['password2']
+
+        if password1 != password2:
+            messages.error(request, "Passwords do not match.")
+            return redirect('/register')
+
+        user = User.objects.create_user(username, email, password1)
+        user.save()
+        michi_profile = MichiProfile(user=user)
+        michi_profile.save()
+        return render(request, 'login.html')
+    return render(request, "register.html")

@@ -71,7 +71,7 @@
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link {% block registeractive %} {% endblock registeractive %}" href="#">Register</a>
+                            <a class="nav-link {% block registeractive %} {% endblock registeractive %}" href="{% url 'register' %}">Register</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {% block loginactive %} {% endblock loginactive %}" href="{% url 'login' %}">Login</a>
