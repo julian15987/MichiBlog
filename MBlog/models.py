@@ -1,6 +1,7 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth.models import User
+from ckeditor.fields import RichTextField
 
 
 class MichiProfile(models.Model):
@@ -25,7 +26,7 @@ class MichiPost(models.Model):
     michi_author = models.ForeignKey(MichiProfile, on_delete=models.CASCADE, blank=False, null=False)
     header_image = models.ImageField(upload_to='post_pictures', blank=True, null=True)
     content_image = models.ImageField(upload_to='post_pictures', blank=True, null=True)
-    content = models.TextField()
+    content = RichTextField()
     category = models.ForeignKey('PostCategories', on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     erased = models.BooleanField(default=False)
