@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %} Ver/Modificar profile {% endblock %}
+{% block michiprofileactive %} active {% endblock michiprofileactive %}
+
+{% block body %}
+
+    <form action="{% url 'edit_profile' %}" enctype="multipart/form-data" method="POST">
+        {% csrf_token %}
+        <h1 class="text-center">Ver/Modificar Michi-Profile</h1>
+
+        <div class="col-md-12 mt-2 text-center">
+            <img src="/media/{{ request.user.michiprofile.profile_picture }}" alt="" class="img-fluid img-header mx-3">
+            <br>
+            {{ form.profile_picture }}
+        </div>
+        <h5>Mail: {{ request.user.email }} - Creado el {{ request.user.michiprofile.created_at }}</h5>
+
+        <div class="col-md-12 mt-2">
+            <label class="form-label">Nick: </label> {{ form.nickname}}
+        </div>
+        <div class="col-md-12 mt-2">
+            <label class="form-label">Color de pelo: </label> {{ form.hair_color }}
+        </div>
+        <div class="col-md-12 mt-2">
+            <label class="form-label">Color de ojos: </label>
+            {{ form.eye_color }}
+        </div>
+        <div class="col-md-12 mt-2">
+            <label class="form-label">Fecha de cumpleaños: </label> {{ form.birthday }}
+        </div>
+        <div class="col-md-12 mt-2">
+            <label class="form-label">Michi Inactivo? </label> {{ form.erased }}
+        </div>
+        <div class="col-12 mt-2 mb-5">
+            <button type="submit" class="btn btn-primary float-end">Actualizar Michi Profile</button>
+        </div>
+    </form>
+
+{% endblock %}

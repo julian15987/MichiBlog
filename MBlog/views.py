@@ -1,12 +1,15 @@
+import datetime
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, HttpResponse
 
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
+from django.db.utils import IntegrityError
 
 from .models import MichiPost, MichiProfile
-from .forms import MichiPostForm
+from .forms import MichiPostForm, MichiProfileForm
 
 
 # Blog
@@ -43,6 +46,7 @@ def add_posts(request):
         form = MichiPostForm()
     return render(request, "add_post.html", {'form': form})
 
+
 # Logins
 def login_request(request):
     if request.method == "POST":
@@ -62,7 +66,37 @@ def login_request(request):
     return render(request, 'login.html')
 
 
+@login_required(login_url='/login')
 def logout_request(request):
     logout(request)
     messages.success(request, "Successfully logged out")
     return redirect('/')
+
+
+@login_required(login_url='/login')
+def edit_profile(request):
+    img = request.user.michiprofile.profile_picture
+    if request.method == "POST":
+        form = MichiProfileForm(data=request.POST, files=request.FILES)
+        if form.is_valid():
+            michi_profile = form.save(commit=False)
+            michi_profile.id = request.user.michiprofile.id
+            if not request.user.michiprofile:
+                michi_profile.created_at = datetime.datetime.now()
+            else:
+                michi_profile.created_at = request.user.michiprofile.created_at
+            michi_profile.user = request.user
+            if not michi_profile.profile_picture:
+                michi_profile.profile_picture = img
+            michi_profile.save()
+            messages.success(request, "Successfully updated profile")
+            return redirect("/")
+    else:
+        form = MichiProfileForm()
+        form.fields['nickname'].initial = request.user.michiprofile.nickname
+        form.fields['hair_color'].initial = request.user.michiprofile.hair_color
+        form.fields['eye_color'].initial = request.user.michiprofile.eye_color
+        form.fields['birthday'].initial = request.user.michiprofile.birthday
+        form.fields['erased'].initial = request.user.michiprofile.erased
+
+    return render(request, "edit_profile.html", {'form': form})
