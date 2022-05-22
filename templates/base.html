@@ -46,12 +46,12 @@
             <div class="text-center mt-3 collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav mx-auto ">
                     <li class="nav-item">
-                        <a class="nav-link {% block homeactive %} {% endblock homeactive %}" aria-current="page" href="#">Blogs</a>
+                        <a class="nav-link {% block homeactive %} {% endblock homeactive %}" aria-current="page" href="/">Blogs</a>
                     </li>
 
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link {% block add_blogs_active %} {% endblock add_blogs_active %}" href="/add_blogs/">Agregar Blog</a>
+                            <a class="nav-link {% block add_posts_active %} {% endblock add_posts_active %}" href="/add_posts">Agregar Blog</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {% block chatsactive %} {% endblock chatsactive %}" href="#">Chats</a>

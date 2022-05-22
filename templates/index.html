@@ -9,7 +9,9 @@
         <div class="card blog-post container m-3">
             <div class="row">
                 <div class="col-2">
-                    <img src="/media/images/logo-header.svg" class="card-img-top" alt="...">
+                    {% if post.header_image %}
+                        <img src="/media/{{ post.header_image }}" class="card-img-top img-post-seemore" alt="...">
+                    {% endif %}
                 </div>
                 <div class="col-8">
                     <div class="card-body">
