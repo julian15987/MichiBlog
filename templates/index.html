@@ -5,6 +5,14 @@
 {% block title %} Pagina Principal {% endblock %}
 
 {% block body %}
+
+    {% if not posts %}
+        <div class="text-center">
+            <p class="text-center">No hay post aun.</p>
+            <img src="https://http.cat/204" class="card-img-top img-post-seemore" alt="...">
+        </div>
+    {% endif %}
+
     {% for post in posts %}
         <div class="card blog-post container m-3">
             {% if post.michi_author.user.id == request.user.id %}

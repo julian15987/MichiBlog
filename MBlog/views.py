@@ -1,13 +1,12 @@
 import datetime
 
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, HttpResponse
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
 
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
-from django.db.utils import IntegrityError
 
 from .models import MichiPost, MichiProfile
 from .forms import MichiPostForm, MichiProfileForm
@@ -17,12 +16,15 @@ from .forms import MichiPostForm, MichiProfileForm
 def michi_posts(request):
     posts = MichiPost.objects.filter(erased=False)
     posts = posts.order_by('-created_at')
-
     return render(request, 'index.html', {'posts': posts})
 
 
 def post_detail(request, post_id):
-    post = MichiPost.objects.get(id=post_id)
+    try:
+        post = MichiPost.objects.get(id=post_id)
+    except MichiPost.DoesNotExist as e:
+        return page_not_found(request)
+
     return render(request, 'post_detail.html', {'post': post})
 
 
@@ -120,3 +122,9 @@ def register(request):
         michi_profile.save()
         return render(request, 'login.html')
     return render(request, "register.html")
+
+
+# Errors
+
+def page_not_found(request):
+    return render(request, '404.html', status=404)
