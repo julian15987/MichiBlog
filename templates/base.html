@@ -46,12 +46,12 @@
             <div class="text-center mt-3 collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav mx-auto ">
                     <li class="nav-item">
-                        <a class="nav-link {% block homeactive %} {% endblock homeactive %}" aria-current="page" href="/">Blogs</a>
+                        <a class="nav-link {% block homeactive %} {% endblock homeactive %}" aria-current="page" href="{% url 'michi_posts' %}">Blogs</a>
                     </li>
 
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link {% block add_posts_active %} {% endblock add_posts_active %}" href="/add_posts">Agregar Blog</a>
+                            <a class="nav-link {% block add_posts_active %} {% endblock add_posts_active %}" href="{% url 'add_posts' %}">Agregar Blog</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {% block chatsactive %} {% endblock chatsactive %}" href="#">Chats</a>
@@ -66,15 +66,15 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <li><a class="dropdown-item" href="#">Ver</a></li>
-                                <li><a class="dropdown-item" href="/logout">LogOut</a></li>
+                                <li><a class="dropdown-item" href="{% url 'logout' %}">LogOut</a></li>
                             </ul>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link {% block registeractive %} {% endblock registeractive %}" href="/register">Register</a>
+                            <a class="nav-link {% block registeractive %} {% endblock registeractive %}" href="#">Register</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% block loginactive %} {% endblock loginactive %}" href="/login">Login</a>
+                            <a class="nav-link {% block loginactive %} {% endblock loginactive %}" href="{% url 'login' %}">Login</a>
                         </li>
                     {% endif %}
                 </ul>

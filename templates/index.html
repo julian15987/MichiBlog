@@ -7,21 +7,27 @@
 {% block body %}
     {% for post in posts %}
         <div class="card blog-post container m-3">
+            {% if post.michi_author.user.id == request.user.id %}
+                <p class="text-end me-5"><b>Post propio</b></p>
+            {% endif %}
+
             <div class="row">
                 <div class="col-2">
                     {% if post.header_image %}
                         <img src="/media/{{ post.header_image }}" class="card-img-top img-post-seemore" alt="...">
                     {% endif %}
+                    <br>
                 </div>
+
                 <div class="col-8">
                     <div class="card-body">
                         <h5 class="card-title">{{ post.title }}</h5>
                         <p class="card-text">{{ post.subtitle }}</p>
                         <span class="card-text">
-                            {% if post.content|length > 300 %}
-                                {{post.content|slice:300}}...
+                            {% if post.content|safe|length > 300 %}
+                                {{post.content|safe|slice:300}}...
                             {% else  %}
-                                {{post.content }}
+                                {{post.content|safe }}
                             {% endif %}
                        </span>
                         <p class="card-text">
@@ -33,7 +39,9 @@
                     </div>
                 </div>
                 <div class="col-2" style="position: relative">
-                    <img src="/media/images/see-more.webp" class="img-post-seemore" style="position: absolute;" alt="...">
+                    <a href="{% url 'post_detail' post_id=post.id%}">
+                        <img src="/media/images/see-more.webp" type = "button" href="/" class="img-post-seemore" style="position: absolute;" alt="...">
+                    </a>
                 </div>
             </div>
         </div>

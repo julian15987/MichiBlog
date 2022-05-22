@@ -5,6 +5,7 @@ urlpatterns = [
     # blog posts
     path('', views.michi_posts, name='michi_posts'),
     path('add_posts', views.add_posts, name='add_posts'),
+    path('post/<int:post_id>/', views.post_detail, name='post_detail'),
 
     # logins
     path('login', views.login_request, name='login'),

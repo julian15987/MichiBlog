@@ -17,6 +17,11 @@ def michi_posts(request):
     return render(request, 'index.html', {'posts': posts})
 
 
+def post_detail(request, post_id):
+    post = MichiPost.objects.get(id=post_id)
+    return render(request, 'post_detail.html', {'post': post})
+
+
 @login_required(login_url='/login')
 def add_posts(request):
     if request.method == "POST":

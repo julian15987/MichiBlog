@@ -103,3 +103,27 @@ footer{
 .michi-color{
     color: var(--first-color) !important;
 }
+
+.post-image-header{
+    width:100%;
+    border-radius: 50px;
+}
+
+.reply{
+    margin-left: 12px;
+}
+.reply small{
+    color: var(--first-color);
+}
+.reply small:hover{
+    color: var(--first-color-light);
+    cursor: pointer;
+}
+.dots{
+    height: 4px;
+    width: 4px;
+    margin-bottom: 2px;
+    background-color: var(--first-color);
+    border-radius: 50%;
+    display: inline-block;
+}
