@@ -1,5 +1,5 @@
 :root {
-    --header-height: 3rem;
+    --header-height: 1rem;
     --nav-width: 68px;
     --first-color: #D1913C;
     --first-color-light: #FFD194;
@@ -10,11 +10,10 @@
 }
 
 body{
-  background: red;
-  background: -webkit-linear-gradient(to left, #FFD194, #D1913C);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to left, #FFD194, #D1913C); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-      position: relative;
+    background: var(--first-color);
+    background: -webkit-linear-gradient(to left, #FFD194, #D1913C);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #FFD194, #D1913C); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    position: relative;
     margin: var(--header-height) 0 0 0;
     padding: 0 1rem;
     font-family: var(--body-font);
@@ -36,6 +35,9 @@ body{
   background:var(--first-color)
 }
 a.dropdown-toggle {
+  color:var(--first-color-light) !important
+}
+a.dropdown-toggle:hover {
   color:var(--white-color) !important
 }
 a.dropdown-item:hover {
@@ -47,7 +49,57 @@ a.dropdown-item:hover {
 .nav-item a:hover {
   color:var(--white-color)
 }
+.nav-item .active{
+  color:var(--white-color)
+}
 .nav-item{
   min-width:12vw;
 }
 
+.blog-post{
+    margin-bottom:1rem;
+    border-radius: 50px;
+    background-color: var(--white-color);
+    color: var(--first-color) !important;
+}
+
+.img-header{
+    width:15%;
+    height:auto;
+    border-radius: 50px;
+}
+
+.img-post-seemore{
+    width:75%;
+    height:auto;
+    border-radius: 50px;
+    padding-top: 1rem;
+}
+
+footer{
+    padding: 1rem;
+    text-align: center;
+    color: var(--first-color);
+    font-size: .8rem;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: var(--z-fixed);
+    transition: .5s;
+}
+
+.btn-primary{
+    background-color: var(--first-color);
+    border-color: var(--first-color-light);
+    color: var(--white-color);
+}
+
+.btn-primary:hover{
+    background-color: var(--white-color);
+    border-color: var(--white-color);
+    color: var(--first-color);
+}
+
+.michi-color{
+    color: var(--first-color) !important;
+}
