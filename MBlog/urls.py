@@ -20,6 +20,9 @@ urlpatterns = [
     path('edit_profile', views.edit_profile, name='edit_profile'),
     path('view_profile/<int:user_id>/', views.view_profile, name='view_profile'),
 
+    # about
+    path('about', views.about, name='about'),
+
 ]
 
 

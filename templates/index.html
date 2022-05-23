@@ -32,8 +32,8 @@
                         <h5 class="card-title">{{ post.title }}</h5>
                         <p class="card-text">{{ post.subtitle }}</p>
                         <span class="card-text">
-                            {% if post.content|safe|length > 300 %}
-                                {{post.content|safe|slice:300}}...
+                            {% if post.content|safe|length > 20 %}
+                                {{post.content|safe|slice:20}}...
                             {% else  %}
                                 {{post.content|safe }}
                             {% endif %}

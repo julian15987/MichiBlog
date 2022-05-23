@@ -224,3 +224,9 @@ def register(request):
 
 def page_not_found(request):
     return render(request, 'errors/404.html', status=404)
+
+
+# About
+
+def about(request):
+    return render(request, 'about.html')
