@@ -23,8 +23,9 @@
                 <div class="col-2">
                     {% if post.header_image %}
                         <img src="/media/{{ post.header_image }}" class="card-img-top img-post-seemore" alt="...">
+                        <br>
                     {% endif %}
-                    <br>
+
                 </div>
 
                 <div class="col-8">
@@ -33,7 +34,7 @@
                         <p class="card-text">{{ post.subtitle }}</p>
                         <span class="card-text">
                             {% if post.content|safe|length > 20 %}
-                                {{post.content|safe|slice:20}}...
+                                {{post.content|slice:20}}...
                             {% else  %}
                                 {{post.content|safe }}
                             {% endif %}
@@ -46,9 +47,11 @@
                         </p>
                     </div>
                 </div>
+
                 <div class="col-2" style="position: relative">
                     <a href="{% url 'post_detail' post_id=post.id%}">
-                        <img src="/media/images/see-more.webp" type = "button" href="/" class="img-post-seemore" style="position: absolute;" alt="...">
+                        <img src="/media/images/see-more.webp" type = "button" href="/" class="img-post-seemore"
+                             style="position: absolute;" alt="...">
                     </a>
                 </div>
             </div>
