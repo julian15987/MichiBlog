@@ -7,7 +7,7 @@
 
     <form action="{% url 'edit_profile' %}" enctype="multipart/form-data" method="POST">
         {% csrf_token %}
-        <h1 class="text-center">Ver/Modificar Michi-Profile</h1>
+        <h1 class="text-center">Modificar Michi-Profile</h1>
 
         <div class="col-md-12 mt-2 text-center">
             {% if request.user.michiprofile.profile_picture %}

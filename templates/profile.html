@@ -77,7 +77,6 @@
                 <br>
                 <div class="col-md-12">
                     {% for comment in comments %}
-
                         <div class="card mb-3">
                             <div class="card-header">
                                 {{ comment.michi_post.title }}
@@ -87,9 +86,7 @@
                                 <a href="{% url 'post_detail' post_id=comment.michi_post.id %}" class="btn btn-primary">Ver post</a>
                             </div>
                         </div>
-
                     {% endfor %}
-
                 </div>
                 <br>
             </div>

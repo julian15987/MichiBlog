@@ -20,6 +20,16 @@ def michi_posts(request):
     return render(request, 'index.html', {'posts': posts})
 
 
+@login_required(login_url='/login')
+def fav_michi_posts(request):
+    star_posts = MichiStars.objects.filter(michi_author=request.user.michiprofile, stars__gte=3).all()
+    star_posts = star_posts.order_by('-created_at')
+    posts = []
+    for post in star_posts:
+        posts.append(post.michi_post)
+    return render(request, 'index.html', {'posts': posts})
+
+
 def post_detail(request, post_id):
     try:
         post = MichiPost.objects.get(id=post_id)

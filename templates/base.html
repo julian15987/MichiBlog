@@ -57,7 +57,7 @@
                             <a class="nav-link {% block chatsactive %} {% endblock chatsactive %}" href="#">Chats</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% block favoriteactive %} {% endblock favoriteactive %}" href="#">Mis favoritos</a>
+                            <a class="nav-link {% block favoriteactive %} {% endblock favoriteactive %}" href="{% url 'fav_michi_posts' %}">Mis favoritos</a>
                         </li>
                         <li class="nav-item dropdown {% block michiprofileactive %} {% endblock michiprofileactive %}">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
