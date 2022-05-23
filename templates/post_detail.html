@@ -38,9 +38,9 @@
         <br>
         <div class="row">
             <div class="col-8">
-                <p class="text-start">Miaus:
+                <p class="text-start">Patitas:
                     {% if not count_stars %}
-                        <span>No hay miaus</span>
+                        <span>No hay patitas aun.</span>
                     {% else %}
                         {{ count_stars }}
                     {% endif %}
@@ -73,18 +73,18 @@
                                 <div class="d-grid gap-2">
                                     <div class="row">
                                         <div class="col">
-                                            <h5>Miaus: </h5>
+                                            <h5>Patitas: </h5>
                                         </div>
                                         <div class="btn-group" role="group">
                                                 <form action="{% url 'set_post_stars' post_id=post.id stars=1 %}" method="POST">
                                                     {% csrf_token %}
                                                     {% if stars.stars >= 1 %}
                                                         <button type="submit" class="btn btn-outline-warning btn-sm">
-                                                            <span class="iconify" data-icon="bi:star-fill"></span>
+                                                            <span class="iconify" data-icon="icons8:cat-footprint"></span>
                                                         </button>
                                                     {% else %}
                                                         <button type="submit" class="btn btn-outline-warning btn-sm">
-                                                            <span class="iconify" data-icon="bi:star"></span>
+                                                            <span class="iconify" data-icon="mdi:checkbox-blank-circle-outline"></span>
                                                         </button>
                                                     {% endif %}
                                                 </form>
@@ -92,11 +92,11 @@
                                                     {% csrf_token %}
                                                     {% if stars.stars >= 2 %}
                                                         <button type="submit" class="btn btn-outline-warning btn-sm">
-                                                            <span class="iconify" data-icon="bi:star-fill"></span>
+                                                            <span class="iconify" data-icon="icons8:cat-footprint"></span>
                                                         </button>
                                                     {% else %}
                                                         <button type="submit" class="btn btn-outline-warning btn-sm">
-                                                            <span class="iconify" data-icon="bi:star"></span>
+                                                            <span class="iconify" data-icon="mdi:checkbox-blank-circle-outline"></span>
                                                         </button>
                                                     {% endif %}
                                                 </form>
@@ -104,11 +104,11 @@
                                                     {% csrf_token %}
                                                     {% if stars.stars >= 3 %}
                                                         <button type="submit" class="btn btn-outline-warning btn-sm">
-                                                            <span class="iconify" data-icon="bi:star-fill"></span>
+                                                            <span class="iconify" data-icon="icons8:cat-footprint"></span>
                                                         </button>
                                                     {% else %}
                                                         <button type="submit" class="btn btn-outline-warning btn-sm">
-                                                            <span class="iconify" data-icon="bi:star"></span>
+                                                            <span class="iconify" data-icon="mdi:checkbox-blank-circle-outline"></span>
                                                         </button>
                                                     {% endif %}
                                                 </form>
@@ -116,11 +116,11 @@
                                                     {% csrf_token %}
                                                     {% if stars.stars >= 4 %}
                                                         <button type="submit" class="btn btn-outline-warning btn-sm">
-                                                            <span class="iconify" data-icon="bi:star-fill"></span>
+                                                            <span class="iconify" data-icon="icons8:cat-footprint"></span>
                                                         </button>
                                                     {% else %}
                                                         <button type="submit" class="btn btn-outline-warning btn-sm">
-                                                            <span class="iconify" data-icon="bi:star"></span>
+                                                            <span class="iconify" data-icon="mdi:checkbox-blank-circle-outline"></span>
                                                         </button>
                                                     {% endif %}
                                                 </form>
@@ -128,11 +128,11 @@
                                                     {% csrf_token %}
                                                     {% if stars.stars >= 5 %}
                                                         <button type="submit" class="btn btn-outline-warning btn-sm">
-                                                            <span class="iconify" data-icon="bi:star-fill"></span>
+                                                            <span class="iconify" data-icon="icons8:cat-footprint"></span>
                                                         </button>
                                                     {% else %}
                                                         <button type="submit" class="btn btn-outline-warning btn-sm">
-                                                            <span class="iconify" data-icon="bi:star"></span>
+                                                            <span class="iconify" data-icon="mdi:checkbox-blank-circle-outline"></span>
                                                         </button>
                                                     {% endif %}
                                                 </form>

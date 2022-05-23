@@ -1,6 +1,7 @@
 import datetime
 
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from django.contrib.auth.models import User
@@ -33,10 +34,14 @@ def fav_michi_posts(request):
 def post_detail(request, post_id):
     try:
         post = MichiPost.objects.get(id=post_id)
-        stars = MichiStars.objects.filter(michi_post=post, michi_author=request.user.michiprofile).first()
-        count_stars = MichiStars.objects.filter(michi_post=post).aggregate(Sum('stars'))
     except MichiPost.DoesNotExist as e:
         return page_not_found(request)
+    try:
+        stars = MichiStars.objects.filter(michi_post=post, michi_author=request.user.michiprofile).first()
+    except AttributeError as e:
+        stars = None
+
+    count_stars = MichiStars.objects.filter(michi_post=post).aggregate(Sum('stars'))
 
     return render(request, 'post_detail.html', {'post': post, 'stars': stars, 'count_stars': count_stars['stars__sum']})
 
@@ -170,6 +175,10 @@ def view_profile(request, user_id):
         return page_not_found(request)
 
     return render(request, 'profile.html', {'profile': profile, 'posts': posts, 'comments': comments})
+
+
+def michi_ping(request):
+    return HttpResponse("pong")
 
 
 @login_required(login_url='/login')
