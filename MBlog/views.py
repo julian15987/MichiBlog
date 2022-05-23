@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 
-from .models import MichiPost, MichiProfile
+from .models import MichiPost, MichiProfile, MichiComments
 from .forms import MichiPostForm, MichiProfileForm
 
 
@@ -48,6 +48,30 @@ def add_posts(request):
     else:
         form = MichiPostForm()
     return render(request, "add_post.html", {'form': form})
+
+
+@login_required(login_url='/login')
+def add_comment(request, post_id, parent_id=None):
+    if request.method == "POST":
+        if parent_id is not None:
+            parent_comment = MichiComments.objects.get(id=parent_id)
+        else:
+            parent_comment = None
+
+        comment = request.POST['comment']
+
+        if comment == "":
+            messages.error(request, "El comentario no puede estar vacio")
+            return redirect("/post/" + str(post_id) + '/')
+
+        michi_post = MichiPost.objects.get(id=post_id)
+        michi_comment = MichiComments(content=comment,
+                                      michi_post=michi_post,
+                                      parent_comment=parent_comment,
+                                      michi_author=request.user.michiprofile)
+        michi_comment.save()
+
+    return redirect("/post/"+str(post_id)+'/')
 
 
 # Logins
@@ -124,7 +148,9 @@ def register(request):
     return render(request, "register.html")
 
 
+
+
 # Errors
 
 def page_not_found(request):
-    return render(request, '404.html', status=404)
+    return render(request, 'errors/404.html', status=404)

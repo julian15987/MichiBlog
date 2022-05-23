@@ -48,27 +48,44 @@
     <div class="container mt-5">
         <div class="row d-flex justify-content-center">
             <div class="col-md-8">
-                <div class="headings d-flex justify-content-between align-items-center mb-3">
-                    <h5>Comentarios</h5>
-                </div>
                 {% if not post.michicomments_set.all %}
                     <p>No hay comentarios aun</p>
                 {% endif %}
 
-                {% for comment in post.michicomments_set.all %}
-                    {% if not comment.erased %}
+                {% if user.is_authenticated %}
+                    <div class="container">
+                    <h3>Agregar comentario</h3>
+                    <form action="{% url 'add_comment' post_id=post.id %}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-floating">
+                            <textarea class="form-control" name="comment" style="height: 100px"></textarea>
+                            <br>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary" type="button">Agregar comentario</button>
+                            </div>
+                        </div>
+                    </form>
+                {% else %}
+                    <p>Para comentar debes estar logueado</p>
+                {% endif %}
 
+                <div class="headings d-flex justify-content-between align-items-center mt-3">
+                    <h5>Comentarios</h5>
+                </div>
+                {% for comment in post.michicomments_set.all|dictsortreversed:"created_at" %}
+                    {% if not comment.erased %}
                         {% if not comment.parent_comment %}
                             <div class="card p-3 mt-2">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="user d-flex flex-row align-items-center">
                                         <img src="/media/{{ comment.michi_author.profile_picture }}" width="30" class="user-img rounded-circle me-2">
                                         <span>
-                                            <small class="font-weight-bold text-primary">{{ comment.michi_author.nickname }}</small>
-                                            <small class="font-weight-bold michi-color">{{ comment.content }}</small>
+                                            <small class="font-weight-bold text-primary">{{ comment.michi_author.nickname }}: </small>
+                                            <br>
+                                            <small class="font-weight-bold michi-color ms-3">{{ comment.content }}</small>
                                         </span>
                                     </div>
-                                    <small class="text-muted">2 days ago</small>
+                                    <small class="text-muted">{{ comment.created_at }}</small>
                                 </div>
                                 <div class="action d-flex justify-content-between mt-2 align-items-center">
                                     <div class="reply px-4">
@@ -85,25 +102,26 @@
                                 </div>
                             </div>
 
-                            {% for child_comment in comment.michicomments_set.all %}
+                            {% for child_comment in comment.michicomments_set.all|dictsortreversed:"created_at" %}
                                 {% if not child_comment.erased %}
                                     <div class="card p-3 ms-5 mt-2">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="user d-flex flex-row align-items-center">
                                                 <img src="/media/{{ comment.michi_author.profile_picture }}" width="30" class="user-img rounded-circle me-2">
                                                 <span>
-                                                    <small class="font-weight-bold text-primary">{{ child_comment.michi_author.nickname }}</small>
-                                                    <small class="font-weight-bold michi-color">{{ child_comment.content }}</small>
+                                                    <small class="font-weight-bold text-primary">{{ child_comment.michi_author.nickname }}: </small>
+                                                    <br>
+                                                    <small class="font-weight-bold michi-color ms-3">{{ child_comment.content }}</small>
                                                 </span>
                                             </div>
-                                            <small class="text-muted">2 days ago</small>
+                                            <small class="text-muted">{{ child_comment.created_at }}</small>
                                         </div>
                                         <div class="action d-flex justify-content-between mt-2 align-items-center">
                                             <div class="reply px-4">
-                                            {% if comment.michi_author.user.id == request.user.id %}
-                                                <small>Eliminar</small>
-                                                <span class="dots"></span>
-                                            {% endif %}
+                                                {% if comment.michi_author.user.id == request.user.id %}
+                                                    <small>Eliminar</small>
+                                                    <span class="dots"></span>
+                                                {% endif %}
 
                                             </div>
                                             <div class="icons align-items-center">
@@ -118,10 +136,7 @@
                     {% endif %}
                 {% endfor %}
 
-                <div class="d-grid gap-2">
-                    <button class="btn btn-primary mt-2" type="button">Agregar comentario</button>
                 </div>
-
             </div>
         </div>
     </div>

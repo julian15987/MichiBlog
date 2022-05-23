@@ -6,6 +6,8 @@ urlpatterns = [
     path('', views.michi_posts, name='michi_posts'),
     path('add_posts', views.add_posts, name='add_posts'),
     path('post/<int:post_id>/', views.post_detail, name='post_detail'),
+    path('post/<int:post_id>/comment/', views.add_comment, name='add_comment'),
+    path('post/<int:post_id>/comment/<int:comment_id>/', views.add_comment, name='add_comment'),
 
     # logins
     path('login', views.login_request, name='login'),
