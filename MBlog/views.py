@@ -1,14 +1,15 @@
 import datetime
 
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from django.contrib.auth.models import User
+from django.db.models import Sum
+
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 
-from .models import MichiPost, MichiProfile, MichiComments
+from .models import MichiPost, MichiProfile, MichiComments, MichiStars
 from .forms import MichiPostForm, MichiProfileForm
 
 
@@ -22,10 +23,29 @@ def michi_posts(request):
 def post_detail(request, post_id):
     try:
         post = MichiPost.objects.get(id=post_id)
+        stars = MichiStars.objects.filter(michi_post=post, michi_author=request.user.michiprofile).first()
+        count_stars = MichiStars.objects.filter(michi_post=post).aggregate(Sum('stars'))
     except MichiPost.DoesNotExist as e:
         return page_not_found(request)
 
-    return render(request, 'post_detail.html', {'post': post})
+    return render(request, 'post_detail.html', {'post': post, 'stars': stars, 'count_stars': count_stars['stars__sum']})
+
+
+@login_required(login_url='/login')
+def set_post_stars(request, post_id, stars):
+    try:
+        post = MichiPost.objects.get(id=post_id)
+        michi_stars = MichiStars.objects.filter(michi_post=post, michi_author=request.user.michiprofile).first()
+    except MichiPost.DoesNotExist as e:
+        return page_not_found(request)
+
+    if michi_stars:
+        michi_stars.stars = int(stars)
+    else:
+        michi_stars = MichiStars(michi_post=post, michi_author=request.user.michiprofile, stars=int(stars))
+    michi_stars.save()
+
+    return redirect("/post/"+str(post_id))
 
 
 @login_required(login_url='/login')
@@ -71,7 +91,22 @@ def add_comment(request, post_id, parent_id=None):
                                       michi_author=request.user.michiprofile)
         michi_comment.save()
 
-    return redirect("/post/"+str(post_id)+'/')
+    return redirect("/post/" + str(post_id) + '/')
+
+
+@login_required(login_url='/login')
+def delete_comment(request, comment_id):
+    if request.method == "POST":
+
+        comment = MichiComments.objects.get(id=comment_id)
+
+        if comment_id is None:
+            messages.error(request, "El comentario no puede estar vacio")
+            return redirect("/post/" + str(comment.michi_post.id) + '/')
+
+        comment.delete()
+
+    return redirect("/post/" + str(comment.michi_post.id) + '/')
 
 
 # Logins
@@ -146,8 +181,6 @@ def register(request):
         michi_profile.save()
         return render(request, 'login.html')
     return render(request, "register.html")
-
-
 
 
 # Errors
