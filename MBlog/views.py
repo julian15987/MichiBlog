@@ -150,6 +150,18 @@ def logout_request(request):
     return redirect('/')
 
 
+def view_profile(request, user_id):
+    try:
+        user = User.objects.get(id=user_id)
+        profile = MichiProfile.objects.get(user=user)
+        posts = MichiPost.objects.filter(michi_author=profile).order_by('-created_at')[:3]
+        comments = MichiComments.objects.filter(michi_author=profile).order_by('-created_at')[:5]
+    except User.DoesNotExist as e:
+        return page_not_found(request)
+
+    return render(request, 'profile.html', {'profile': profile, 'posts': posts, 'comments': comments})
+
+
 @login_required(login_url='/login')
 def edit_profile(request):
     img = request.user.michiprofile.profile_picture

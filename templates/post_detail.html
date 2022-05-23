@@ -14,7 +14,7 @@
                 <p class="">{{ post.category.category }}</p>
             </div>
             <div class="col-2 text-muted">
-                <p>By. {{ post.michi_author.nickname }} </p>
+                <p>By. <a href="{% url 'view_profile' user_id=post.michi_author.id %}">{{ post.michi_author.nickname }}</a> </p>
             </div>
         </div>
         <div class="row">

@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %} Ver profile {{ profile.nickname }} {% endblock %}
+{% block michiprofileactive %} active {% endblock michiprofileactive %}
+
+{% block body %}
+
+        <h1 class="text-center"></h1>
+
+    <div class="container rounded bg-white mt-5 mb-5 michi-color">
+    <div class="row">
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                <img class="rounded-circle mt-5" width="150px" src="/media/{{ request.user.michiprofile.profile_picture }}">
+                <span>{{ profile.user.email }}</span>
+            </div>
+        </div>
+        <div class="col-md-5 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Michi-Profile</h4>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-6"><label class="labels">Mail</label>
+                        <input type="text" class="form-control" disabled placeholder="email" value="{{ profile.user.email }}">
+                    </div>
+                    <div class="col-md-6"><label class="labels">Nick</label>
+                        <input type="text" class="form-control" disabled value="{{ profile.nickname }}" placeholder="nick">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-6"><label class="labels">Color de pelo</label>
+                        <input type="text" class="form-control" disabled placeholder="hair_color" value="{{ profile.hair_color }}">
+                    </div>
+                    <div class="col-md-6"><label class="labels">Color de ojos</label>
+                        <input type="text" class="form-control" disabled value="{{ profile.eye_color }}" placeholder="eye_color">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-6"><label class="labels">Fecha de cumpleaños?</label>
+                        <input type="text" class="form-control" disabled placeholder="birthday" value="{{ profile.birthday }}">
+                    </div>
+                    <div class="col-md-6"><label class="labels">Fecha de creacion</label>
+                        <input type="text" class="form-control" disabled value="{{ profile.created_at }}" placeholder="created_at">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-6"><label class="labels">Michi activo?</label>
+                        <input type="text" class="form-control" disabled placeholder="erased" value="{% if profile.erased %}Si{% else %}No{% endif %}">
+                    </div>
+                </div>
+
+                <div class="row mt-5">
+                    <label class="labels">Ultmos Post</label>
+                    <div class="col-md-12">
+                    {% for post in posts %}
+                        <div class="card mb-3" style="width: 15rem;">
+                            <img src="/media/{{ post.header_image }}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <a href="{% url 'post_detail' post_id=post.id %}">
+                                    <p class="card-text" >{{ post.title }}</p>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    </div>
+                </div>
+
+                <div hidden class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between text-center">
+                    <span class="text-center">Ultimos comentarios</span>
+                </div>
+                <br>
+                <div class="col-md-12">
+                    {% for comment in comments %}
+
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                {{ comment.michi_post.title }}
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ comment.content}}</h5>
+                                <a href="{% url 'post_detail' post_id=comment.michi_post.id %}" class="btn btn-primary">Ver post</a>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+{% endblock %}
