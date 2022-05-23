@@ -19,7 +19,9 @@
         </div>
         <div class="row">
             <div class="col">
-                <img src="/media/{{ post.header_image }}" class="img-thumbnail post-image-header" alt="...">
+                {% if post.content_image %}
+                    <img src="/media/{{ post.header_image }}" class="img-thumbnail post-image-header" alt="...">
+                {% endif %}
             </div>
         </div>
         <hr>
@@ -28,7 +30,9 @@
                 <p>{{ post.content|safe }}</p>
             </div>
             <div class="col-4">
-                <img src="/media/{{ post.content_image }}" class="img-thumbnail post-image-header" alt="...">
+                {% if post.content_image %}
+                    <img src="/media/{{ post.content_image }}" class="img-thumbnail post-image-header" alt="...">
+                {% endif %}
             </div>
         </div>
         <br>
