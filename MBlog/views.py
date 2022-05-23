@@ -109,6 +109,21 @@ def delete_comment(request, comment_id):
     return redirect("/post/" + str(comment.michi_post.id) + '/')
 
 
+@login_required(login_url='/login')
+def delete_post(request, post_id):
+    if request.method == "POST":
+
+        post = MichiPost.objects.get(id=post_id)
+
+        if post_id is None:
+            messages.error(request, "El post no puede estar vacio")
+            return redirect("/post/" + str(post_id) + '/')
+
+        post.delete()
+
+    return redirect("/")
+
+
 # Logins
 def login_request(request):
     if request.method == "POST":

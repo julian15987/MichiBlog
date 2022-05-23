@@ -50,6 +50,14 @@
             <div class="col-4">
                 <p class="text-end">Creado el {{ post.created_at }}</p>
             </div>
+
+            {% if post.michi_author.user.id == request.user.id %}
+                <form action="{% url 'delete_post' post_id=post.id %}" method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-outline-danger">Eliminar post</button>
+                </form>
+            {% endif %}
+
         </div>
     </div>
 
