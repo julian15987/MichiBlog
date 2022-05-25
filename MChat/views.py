@@ -5,6 +5,7 @@ from django.shortcuts import render
 
 # Roofs
 def create_roof(request):
+
     return render(request, 'chat/create_roof.html')
 
 

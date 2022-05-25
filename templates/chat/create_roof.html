@@ -13,8 +13,62 @@
             <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Techo"
                        id="roof-name-input">
-                <button class="btn btn-outline-primary" id="roof-name-submit" type="button">Ir</button>
+                <button class="btn btn-primary" id="roof-name-submit" type="button">Ir</button>
             </div>
+
+            <h1>Sugerencias</h1>
+            <div class="row">
+                <div class="col">
+                    <div class="d-grid gap-2">
+                        <a class="btn btn-primary" id="opt-fish" >
+                            <i class="iconify" data-icon="ion:fish-sharp"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="d-grid gap-2">
+                        <a class="btn btn-primary" id="opt-claw">
+                            <i class="iconify" data-icon="icons8:cat-footprint"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="d-grid gap-2">
+                        <a class="btn btn-primary" id="opt-github">
+                            <i class="iconify" data-icon="akar-icons:octocat-fill"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="d-grid gap-2">
+                        <a class="btn btn-primary" id="opt-tomcat">
+                            <i class="iconify" data-icon="simple-icons:apachetomcat"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="d-grid gap-2">
+                        <a class="btn btn-primary" id="opt-mouse">
+                            <i class="iconify" data-icon="emojione-monotone:mouse-face"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="d-grid gap-2">
+                        <a class="btn btn-primary" id="opt-ball">
+                            <i class="iconify" data-icon="ph:soccer-ball-bold"></i>
+                        </a>
+                    </div>
+                </div>
+
+
+            </div>
+
             <marquee scrolldelay="20" truespeed>
                 <img src="/media/images/cat-roof.gif">
             </marquee>
@@ -25,6 +79,34 @@
 {% endblock %}
 
 {% block js %}
+
+    <script>
+        document.querySelector("#opt-fish").onclick = function(e) {
+            add_text_to_roof('pescado')
+        };
+        document.querySelector("#opt-claw").onclick = function(e) {
+            add_text_to_roof('garrita')
+        };
+        document.querySelector("#opt-github").onclick = function(e) {
+            add_text_to_roof('github')
+        };
+        document.querySelector("#opt-tomcat").onclick = function(e) {
+            add_text_to_roof('tom')
+        };
+        document.querySelector("#opt-mouse").onclick = function(e) {
+            add_text_to_roof('raton')
+        };
+        document.querySelector("#opt-ball").onclick = function(e) {
+            add_text_to_roof('pelota')
+        };
+    </script>
+
+    <script>
+        function add_text_to_roof(text) {
+            document.querySelector("#roof-name-input").value += text + ' ';
+        }
+    </script>
+
     <script>
 
         const cyrb53 = function(str, seed = 0) {
