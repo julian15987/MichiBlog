@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     # roofs
     path('', views.create_roof, name='create_roof'),
+    path('<str:roof_name>/', views.roof, name='roof'),
 ]
 
 
