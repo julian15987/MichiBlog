@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %} Ir a un techo {% endblock %}
+{% block chatsactive %} active {% endblock chatsactive %}
+
+{% block body %}
+
+
+    <div class="container">
+        <h1 class="text-center">¿A que techo vamos ?</h1>
+        <br>
+        <div class="row">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Techo"
+                       id="roof-name-input">
+                <button class="btn btn-outline-primary" id="roof-name-submit" type="button">Ir</button>
+            </div>
+            <marquee scrolldelay="20" truespeed>
+                <img src="/media/images/cat-roof.gif">
+            </marquee>
+            <hr>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+
+        const cyrb53 = function(str, seed = 0) {
+            let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
+            for (let i = 0, ch; i < str.length; i++) {
+                ch = str.charCodeAt(i);
+                h1 = Math.imul(h1 ^ ch, 2654435761);
+                h2 = Math.imul(h2 ^ ch, 1597334677);
+            }
+            h1 = Math.imul(h1 ^ (h1>>>16), 2246822507) ^ Math.imul(h2 ^ (h2>>>13), 3266489909);
+            h2 = Math.imul(h2 ^ (h2>>>16), 2246822507) ^ Math.imul(h1 ^ (h1>>>13), 3266489909);
+            return 4294967296 * (2097151 & h2) + (h1>>>0);
+        };
+
+        document.querySelector('#roof-name-input').focus();
+
+        document.querySelector('#roof-name-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {
+                document.querySelector('#roof-name-submit').click();
+            }
+        };
+        document.querySelector('#roof-name-submit').onclick = function(e) {
+            var roofName = document.querySelector('#roof-name-input').value;
+            window.location.pathname = '/chat/' + cyrb53(roofName) + '/';
+        };
+    </script>
+{% endblock %}

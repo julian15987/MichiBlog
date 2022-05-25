@@ -30,7 +30,7 @@ def michi_posts(request):
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
 
-    return render(request, 'index.html', {'posts': posts})
+    return render(request, 'blog/index.html', {'posts': posts})
 
 
 @login_required(login_url='/login')
@@ -40,7 +40,7 @@ def fav_michi_posts(request):
     posts = []
     for post in star_posts:
         posts.append(post.michi_post)
-    return render(request, 'index.html', {'posts': posts})
+    return render(request, 'blog/index.html', {'posts': posts})
 
 
 def post_detail(request, post_id):
@@ -55,7 +55,7 @@ def post_detail(request, post_id):
 
     count_stars = MichiStars.objects.filter(michi_post=post).aggregate(Sum('stars'))
 
-    return render(request, 'post_detail.html', {'post': post, 'stars': stars, 'count_stars': count_stars['stars__sum']})
+    return render(request, 'blog/post_detail.html', {'post': post, 'stars': stars, 'count_stars': count_stars['stars__sum']})
 
 
 @login_required(login_url='/login')
@@ -93,7 +93,7 @@ def add_posts(request):
             return redirect("/")
     else:
         form = MichiPostForm()
-    return render(request, "add_post.html", {'form': form})
+    return render(request, "blog/add_post.html", {'form': form})
 
 
 @login_required(login_url='/login')
@@ -177,7 +177,7 @@ def view_profile(request, user_id):
     except User.DoesNotExist as e:
         return page_not_found(request)
 
-    return render(request, 'profile.html', {'profile': profile, 'posts': posts, 'comments': comments})
+    return render(request, 'blog/profile.html', {'profile': profile, 'posts': posts, 'comments': comments})
 
 
 def michi_ping(request):
@@ -210,7 +210,7 @@ def edit_profile(request):
         form.fields['birthday'].initial = request.user.michiprofile.birthday
         form.fields['erased'].initial = request.user.michiprofile.erased
 
-    return render(request, "edit_profile.html", {'form': form})
+    return render(request, "blog/edit_profile.html", {'form': form})
 
 
 def register(request):
