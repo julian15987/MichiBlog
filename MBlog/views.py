@@ -219,6 +219,7 @@ def register(request):
         email = request.POST['email']
         password1 = request.POST['password1']
         password2 = request.POST['password2']
+        nick = request.POST['nick']
 
         if password1 != password2:
             messages.error(request, "Passwords do not match.")
@@ -226,7 +227,7 @@ def register(request):
 
         user = User.objects.create_user(username, email, password1)
         user.save()
-        michi_profile = MichiProfile(user=user)
+        michi_profile = MichiProfile(user=user, nickname=nick)
         michi_profile.save()
         return render(request, 'login.html')
     return render(request, "register.html")
