@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'MBlog',
     'MChat',
     'ckeditor',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -72,7 +73,15 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'MichiBlog.wsgi.application'
+ASGI_APPLICATION = 'MichiBlog.asgi.application'
 
+# Por el momento se usa un layer In-Memory, solo para terminar con el proyecto sin complicar mucho con la instalacion
+# de un redis
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
