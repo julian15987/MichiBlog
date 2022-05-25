@@ -105,15 +105,14 @@ footer{
 }
 
 .btn-outline-primary{
-    background-color: var(--first-color);
     border-color: var(--first-color-light);
-    color: var(--white-color);
+    color: var(--first-color);
 }
 
 .btn-outline-primary:hover{
-    background-color: var(--white-color);
+    background-color: var(--first-color);
     border-color: var(--white-color);
-    color: var(--first-color);
+    color: var(--white-color);
 }
 
 

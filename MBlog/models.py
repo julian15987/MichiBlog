@@ -15,6 +15,9 @@ class MichiProfile(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     erased = models.BooleanField(default=False)
 
+    def get_image_relative_path(self):
+        return f'{self.profile_picture}'
+
     def __str__(self):
         return f'Profile of {self.user.username}'
 
