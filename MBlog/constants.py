@@ -1,0 +1,8 @@
+# Blogs
+
+POST_PER_PAGE: int = 3
+STARS_FOR_FAVOURITE: int = 3
+
+# Profile
+POST_PER_PROFILE: int = 3
+COMMENTS_PER_PROFILE: int = 5

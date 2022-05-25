@@ -14,15 +14,20 @@
     {% endif %}
 
     {% for post in posts %}
-        <div class="card blog-post container m-3">
+        <div class="card blog-post m-3">
             {% if post.michi_author.user.id == request.user.id %}
                 <p class="text-end me-5"><b>Post propio</b></p>
+            {% else %}
+                <p class="text-end me-5"><b>Por : {{ post.michi_author.nickname }}</b></p>
             {% endif %}
 
             <div class="row">
-                <div class="col-2">
+                <div class="col-2 mb-2 ms-2" style="text-align: center">
                     {% if post.header_image %}
-                        <img src="/media/{{ post.header_image }}" class="card-img-top img-post-seemore" alt="...">
+                        <img src="/media/{{ post.header_image }}" class="img-post-profile" alt="...">
+                        <br>
+                    {% else %}
+                        <img src="/media/images/no-image.jpeg" class="img-post-profile" alt="...">
                         <br>
                     {% endif %}
 
@@ -43,19 +48,50 @@
                             <small class="text-muted">{{ post.created_at }}</small>
                         </p>
                         <p class="card-text text-end">
-                            <small class="text-muted">10 miaus</small>
+                            <small class="text-muted">{{ post.michicomments_set.all|length }} miaus</small>
                         </p>
                     </div>
                 </div>
 
-                <div class="col-2" style="position: relative">
+                <div class="col" style="text-align: center">
                     <a href="{% url 'post_detail' post_id=post.id%}">
                         <img src="/media/images/see-more.webp" type = "button" href="/" class="img-post-seemore"
-                             style="position: absolute;" alt="...">
+                             alt="...">
                     </a>
                 </div>
             </div>
         </div>
     {% endfor %}
+
+    <div class="text-center">
+    <!-- Paginacion -->
+        {% if posts.has_other_pages %}
+            <div class="btn-group" role="group" aria-label="Basic example">
+
+                {% if posts.has_previous %}
+                        <a type="button" class="btn btn-outline-primary" href="?page={{ posts.previous_page_number }}">Anterior</a>
+                    {% else %}
+                        <a type="button" class="btn btn-outline-secondary disabled" href="#">Anterior</a>
+                {% endif %}
+
+                {% for i in posts.paginator.page_range %}
+                    {% if posts.number == i %}
+                        <a type="button" class="btn btn-outline-secondary disabled" href="#">{{ i }}</a>
+                    {% else %}
+                        <a type="button" class="btn btn-outline-primary" href="?page={{ i }}">{{ i }}</a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if posts.has_next %}
+                    <a type="button" class="btn btn-outline-primary" href="?page={{ posts.next_page_number }}">Siguiente</a>
+                {% else %}
+                    <a type="button" class="btn btn-outline-secondary disabled" href="#">Siguiente</a>
+                {% endif %}
+
+            </div>
+        {% endif %}
+    <!-- Paginacion -->
+    </div>
+
 
 {% endblock %}

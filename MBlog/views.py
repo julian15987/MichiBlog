@@ -6,24 +6,36 @@ from django.shortcuts import render, redirect
 
 from django.contrib.auth.models import User
 from django.db.models import Sum
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 
 from .models import MichiPost, MichiProfile, MichiComments, MichiStars
 from .forms import MichiPostForm, MichiProfileForm
+import MBlog.constants as constants
 
 
 # Blog
 def michi_posts(request):
     posts = MichiPost.objects.filter(erased=False)
     posts = posts.order_by('-created_at')
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(posts, constants.POST_PER_PAGE)
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+
     return render(request, 'index.html', {'posts': posts})
 
 
 @login_required(login_url='/login')
 def fav_michi_posts(request):
-    star_posts = MichiStars.objects.filter(michi_author=request.user.michiprofile, stars__gte=3).all()
+    star_posts = MichiStars.objects.filter(michi_author=request.user.michiprofile, stars__gte=constants.STARS_FOR_FAVOURITE).all()
     star_posts = star_posts.order_by('-created_at')
     posts = []
     for post in star_posts:
@@ -77,7 +89,6 @@ def add_posts(request):
             michi_post = form.save(commit=False)
             michi_post.michi_author = michi_author
             michi_post.save()
-            obj = form.instance
             messages.success(request, 'El MichiPost se agrego al MichiBlog !')
             return redirect("/")
     else:
@@ -112,30 +123,22 @@ def add_comment(request, post_id, parent_id=None):
 @login_required(login_url='/login')
 def delete_comment(request, comment_id):
     if request.method == "POST":
-
         comment = MichiComments.objects.get(id=comment_id)
-
         if comment_id is None:
             messages.error(request, "El comentario no puede estar vacio")
             return redirect("/post/" + str(comment.michi_post.id) + '/')
-
         comment.delete()
-
-    return redirect("/post/" + str(comment.michi_post.id) + '/')
+        return redirect("/post/" + str(comment.michi_post.id) + '/')
 
 
 @login_required(login_url='/login')
 def delete_post(request, post_id):
     if request.method == "POST":
-
         post = MichiPost.objects.get(id=post_id)
-
         if post_id is None:
             messages.error(request, "El post no puede estar vacio")
             return redirect("/post/" + str(post_id) + '/')
-
         post.delete()
-
     return redirect("/")
 
 
@@ -169,8 +172,8 @@ def view_profile(request, user_id):
     try:
         user = User.objects.get(id=user_id)
         profile = MichiProfile.objects.get(user=user)
-        posts = MichiPost.objects.filter(michi_author=profile).order_by('-created_at')[:3]
-        comments = MichiComments.objects.filter(michi_author=profile).order_by('-created_at')[:5]
+        posts = MichiPost.objects.filter(michi_author=profile).order_by('-created_at')[:constants.POST_PER_PROFILE]
+        comments = MichiComments.objects.filter(michi_author=profile).order_by('-created_at')[:constants.COMMENTS_PER_PROFILE]
     except User.DoesNotExist as e:
         return page_not_found(request)
 

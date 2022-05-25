@@ -54,7 +54,7 @@
                     <label class="labels">Ultmos Post</label>
                     <div class="col-md-12">
                     {% for post in posts %}
-                        <div class="card mb-3" style="width: 15rem;">
+                        <div class="card mb-3">
                             <img src="/media/{{ post.header_image }}" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <a href="{% url 'post_detail' post_id=post.id %}">
@@ -82,8 +82,10 @@
                                 {{ comment.michi_post.title }}
                             </div>
                             <div class="card-body">
+                                <p class="text-muted text-end" style="font-size: small">El {{ comment.created_at }}</p>
                                 <h5 class="card-title">{{ comment.content}}</h5>
                                 <a href="{% url 'post_detail' post_id=comment.michi_post.id %}" class="btn btn-primary">Ver post</a>
+
                             </div>
                         </div>
                     {% endfor %}
