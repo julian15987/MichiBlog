@@ -3,6 +3,8 @@
 <head>
     {% load static %}
 
+    <link rel="icon" href="/media/images/favicon.ico">
+
     <meta charset="UTF-8">
     <!-- Bootstrap icons-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" type="text/css" />
@@ -54,7 +56,7 @@
                             <a class="nav-link {% block add_posts_active %} {% endblock add_posts_active %}" href="{% url 'add_posts' %}">Agregar Blog</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% block chatsactive %} {% endblock chatsactive %}" href="#">Chats</a>
+                            <a class="nav-link {% block chatsactive %} {% endblock chatsactive %}" href="{% url 'create_roof' %}">Chats</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {% block favoriteactive %} {% endblock favoriteactive %}" href="{% url 'fav_michi_posts' %}">Mis favoritos</a>
