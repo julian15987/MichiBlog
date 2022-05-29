@@ -82,13 +82,14 @@ footer{
 
 .img-post-seemore{
     width:75%;
-    border-radius: 50px;
+    height: 50%;
+    border-radius: 100%;
     padding-top: 1rem;
 }
 
 .img-post-profile{
     width: 100%;
-    height: 100%;
+    height: 15rem;
     border-radius: 100%;
 }
 

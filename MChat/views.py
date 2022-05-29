@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from MChat.models import MichiRoofs
+from MChat.models import MichiRoofs, MichiRoofUsers
 from django.template.defaulttags import register
 # Create your views here.
 
@@ -47,6 +47,30 @@ def roof(request, roof_id):
 
 @login_required(login_url='/login')
 def set_roof_name(request, roof_id):
-    roof_name = request.POST.get('roof_name')
-    MichiRoofs.objects.filter(roof_id=roof_id).update(roof_name=roof_name)
+    if request.method == "POST":
+        roof_name = request.POST.get('roof_name')
+        MichiRoofs.objects.filter(roof_id=roof_id).update(roof_name=roof_name)
+
     return redirect(f'/chat/{roof_id}')
+
+
+@login_required(login_url='/login')
+def exit_roof(request, roof_id):
+    try:
+        MichiRoofUsers.objects.filter(roof_id=roof_id, user_id=request.user.michiprofile).delete()
+    except MichiRoofUsers.DoesNotExist:
+        pass
+    return redirect('/chat/')
+
+
+@login_required(login_url='/login')
+def delete_roof(request, roof_id):
+    try:
+        michi_roof = MichiRoofs.objects.get(roof_id=roof_id)
+    except MichiRoofUsers.DoesNotExist:
+        return redirect('/chat/')
+
+    if request.user.michiprofile == michi_roof.michi_owner:
+        michi_roof.delete()
+
+    return redirect('/chat/')

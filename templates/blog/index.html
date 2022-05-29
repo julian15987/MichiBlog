@@ -15,34 +15,31 @@
 
     {% for post in posts %}
         <div class="card blog-post m-3">
+
             {% if post.michi_author.user.id == request.user.id %}
-                <p class="text-end me-5"><b>Post propio</b></p>
+                <p class="text-end me-5 mt-2"><b>Post propio</b></p>
             {% else %}
-                <p class="text-end me-5"><b>Por : {{ post.michi_author.nickname }}</b></p>
+                <p class="text-end me-5 mt-2"><b>Por : <a class="michi-color" href="{% url 'view_profile' user_id=post.michi_author.id %}">{{ post.michi_author.nickname }}</a></b></p>
             {% endif %}
 
             <div class="row">
                 <div class="col-2 mb-2 ms-2" style="text-align: center">
                     {% if post.header_image %}
                         <img src="/media/{{ post.header_image }}" class="img-post-profile" alt="...">
-                        <br>
                     {% else %}
                         <img src="/media/images/no-image.jpeg" class="img-post-profile" alt="...">
-                        <br>
                     {% endif %}
 
                 </div>
 
                 <div class="col-8">
                     <div class="card-body">
-                        <h5 class="card-title">{{ post.title }}</h5>
+                        <a href="{% url 'post_detail' post_id=post.id%}" class="michi-color">
+                            <h5 class="card-title">{{ post.title }}</h5>
+                        </a>
                         <p class="card-text">{{ post.subtitle }}</p>
                         <span class="card-text">
-                            {% if post.content|safe|length > 20 %}
-                                {{post.content|slice:20}}...
-                            {% else  %}
-                                {{post.content|safe }}
-                            {% endif %}
+                            {{post.content|safe }}
                        </span>
                         <p class="card-text">
                             <small class="text-muted">{{ post.created_at }}</small>
@@ -57,10 +54,12 @@
                     </div>
                 </div>
 
-                <div class="col" style="text-align: center">
+                <div class="col mb-4" style="text-align: center">
                     <a href="{% url 'post_detail' post_id=post.id%}">
                         <img src="/media/images/see-more.webp" type = "button" href="/" class="img-post-seemore"
                              alt="...">
+                        <br>
+                        <p class="michi-color">ver mas</p>
                     </a>
                 </div>
             </div>

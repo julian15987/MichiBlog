@@ -75,6 +75,7 @@
                                 <div class="d-grid gap-2">
                                     <div class="row">
                                         <div class="btn-group" role="group">
+
                                         <h5 class="mt-1 me-3">Patitas: </h5>
                                                 <form action="{% url 'set_post_stars' post_id=post.id stars=1 %}" method="POST">
                                                     {% csrf_token %}
@@ -138,6 +139,8 @@
                                                 </form>
                                         </div>
                                     </div>
+                                <span class="text-break fs-6 fw-lighter pb-2">Con {{ favorite }} patitas el posteo se guarda en favoritos.</span>
+                                <hr>
                                 </div>
                             </div>
                         </div>

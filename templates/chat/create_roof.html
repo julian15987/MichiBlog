@@ -7,19 +7,22 @@
 
 
     <div class="container">
-        <h1 class="text-center">¿A que techo vamos ?</h1>
+        <h1 class="text-center mb-3">¿A que techo vamos ?</h1>
+        <span class="text-break fs-6 fw-lighter pb-2">Para llegar a un techo hay que indicar su ubicacion, los michis no retienen esta informacion asi que no tienen un rumbo determinado. </span>
         <br>
 
-        <div class="row">
+        <div class="row mt-2">
             <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Techo"
                        id="roof-name-input">
                 <button class="btn btn-primary" id="roof-name-submit" type="button">Ir</button>
             </div>
-
+            <span class="text-break fs-6 fw-lighter pb-2">Lo importante es conseguir un techo libre y acostarse a tomar sol.</span>
+            <hr>
             <h1>Sugerencias</h1>
+            <span class="text-break fs-6 fw-lighter pb-2">Estos botones generaran texto en la barra de busqueda para encontrar o generar un nuevo techo de forma mas agil.</span>
 
-            <div class="row">
+            <div class="row pb-2">
                 {% for key, value in options.items %}
                     <div class="col">
                         <div class="d-grid gap-2">
@@ -31,27 +34,33 @@
                     </div>
                 {% endfor %}
             </div>
+
             <hr>
 
             <div class="row">
-                <h1>Actuales: </h1>
+                <h1>Techos encontrados: </h1>
 
-                <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div class="row row-cols-1 row-cols-md-5 g-4">
                     {% for roof in roofs %}
                         <div class="col">
                             <div class="card border-warning">
                                 <img src="/media/images/roof.jpeg" class="card-img-top" alt="...">
                                 <div class="card-body">
                                     {% if roof.roof_name %}
-                                        <h5 class="card-title michi-color">Nombre : {{ roof.roof_name }}</h5>
+                                        <h5 class="card-title michi-color">{{ roof.roof_name }}</h5>
                                     {% else %}
                                         <h5 class="card-title michi-color">Sin nombre aun</h5>
                                     {% endif %}
-                                    <p class="card-text michi-color">
+                                    <p class="card-text michi-color fs-6">
                                         Techo {{ roof.roof_id }}
-                                        <hr class="michi-color">
-
                                     </p>
+                                    <hr class="michi-color">
+                                       <p class="card-text michi-color">
+                                           Dueño: <a href="{% url 'view_profile' user_id=roof.michi_owner.id %}">
+                                           {{ roof.michi_owner.nickname }}
+                                       </a>
+                                       </p>
+                                    <hr class="michi-color">
                                        <p class="card-text michi-color">
                                            {{ roof.michiroofusers_set.all|length }} Michis
                                        </p>
@@ -70,6 +79,9 @@
 
                                         <div class="d-grid gap-2">
                                             <a class="btn btn-outline-primary" href="{% url 'roof' roof_id=roof.roof_id %}" type="button">Ingresar</a>
+                                            {% if roof.michi_owner.user.id == request.user.id %}
+                                                <a class="btn btn-outline-danger" href="{% url 'delete_roof' roof_id=roof.roof_id %}" type="button">Eliminar chat</a>
+                                            {% endif %}
                                         </div>
 
                                 </div>

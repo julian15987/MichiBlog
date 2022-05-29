@@ -55,7 +55,7 @@ def post_detail(request, post_id):
 
     count_stars = MichiStars.objects.filter(michi_post=post).aggregate(Sum('stars'))
 
-    return render(request, 'blog/post_detail.html', {'post': post, 'stars': stars, 'count_stars': count_stars['stars__sum']})
+    return render(request, 'blog/post_detail.html', {'post': post, 'stars': stars, 'count_stars': count_stars['stars__sum'], 'favorite': constants.STARS_FOR_FAVOURITE})
 
 
 @login_required(login_url='/login')
@@ -201,7 +201,7 @@ def edit_profile(request):
                 michi_profile.profile_picture = img
             michi_profile.save()
             messages.success(request, "Successfully updated profile")
-            return redirect("/")
+            return redirect("/view_profile/" + str(request.user.id))
     else:
         form = MichiProfileForm()
         form.fields['nickname'].initial = request.user.michiprofile.nickname
@@ -225,11 +225,15 @@ def register(request):
             messages.error(request, "Passwords do not match.")
             return redirect('/register')
 
-        user = User.objects.create_user(username, email, password1)
-        user.save()
-        michi_profile = MichiProfile(user=user, nickname=nick)
-        michi_profile.save()
-        return render(request, 'login.html')
+        try:
+            user = User.objects.create_user(username, email, password1)
+            user.save()
+            michi_profile = MichiProfile(user=user, nickname=nick)
+            michi_profile.save()
+            return render(request, 'login.html')
+        except Exception as e:
+            messages.error(request, "Username or email already exists.")
+            return redirect('/register')
     return render(request, "register.html")
 
 
