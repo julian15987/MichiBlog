@@ -97,10 +97,10 @@ def add_posts(request):
 
 
 @login_required(login_url='/login')
-def add_comment(request, post_id, parent_id=None):
+def add_comment(request, post_id, comment_id=None):
     if request.method == "POST":
-        if parent_id is not None:
-            parent_comment = MichiComments.objects.get(id=parent_id)
+        if comment_id is not None:
+            parent_comment = MichiComments.objects.get(id=comment_id)
         else:
             parent_comment = None
 

@@ -48,7 +48,11 @@
                             <small class="text-muted">{{ post.created_at }}</small>
                         </p>
                         <p class="card-text text-end">
-                            <small class="text-muted">{{ post.michicomments_set.all|length }} miaus</small>
+                            {% if post.michicomments_set.all|length == 0 %}
+                                <small class="text-muted">Sin miaus aun</small>
+                            {% else %}
+                                <small class="text-muted">{{ post.michicomments_set.all|length }} miaus</small>
+                            {% endif %}
                         </p>
                     </div>
                 </div>

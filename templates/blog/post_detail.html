@@ -51,12 +51,14 @@
                 <p class="text-end">Creado el {{ post.created_at }}</p>
             </div>
 
-            {% if post.michi_author.user.id == request.user.id %}
-                <form action="{% url 'delete_post' post_id=post.id %}" method="POST">
-                    {% csrf_token %}
-                    <button class="btn btn-outline-danger">Eliminar post</button>
-                </form>
-            {% endif %}
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                {% if post.michi_author.user.id == request.user.id %}
+                    <form action="{% url 'delete_post' post_id=post.id %}" method="POST">
+                        {% csrf_token %}
+                        <button class="btn btn-outline-danger">Eliminar post</button>
+                    </form>
+                {% endif %}
+            </div>
 
         </div>
     </div>
@@ -72,18 +74,16 @@
                             <div class="form-floating">
                                 <div class="d-grid gap-2">
                                     <div class="row">
-                                        <div class="col">
-                                            <h5>Patitas: </h5>
-                                        </div>
                                         <div class="btn-group" role="group">
+                                        <h5 class="mt-1 me-3">Patitas: </h5>
                                                 <form action="{% url 'set_post_stars' post_id=post.id stars=1 %}" method="POST">
                                                     {% csrf_token %}
                                                     {% if stars.stars >= 1 %}
-                                                        <button type="submit" class="btn btn-outline-warning btn-sm">
+                                                        <button type="submit" class="btn btn-outline-warning btn-sm me-1">
                                                             <span class="iconify" data-icon="icons8:cat-footprint"></span>
                                                         </button>
                                                     {% else %}
-                                                        <button type="submit" class="btn btn-outline-warning btn-sm">
+                                                        <button type="submit" class="btn btn-outline-warning btn-sm me-1">
                                                             <span class="iconify" data-icon="mdi:checkbox-blank-circle-outline"></span>
                                                         </button>
                                                     {% endif %}
@@ -91,11 +91,11 @@
                                                 <form action="{% url 'set_post_stars' post_id=post.id stars=2 %}" method="POST">
                                                     {% csrf_token %}
                                                     {% if stars.stars >= 2 %}
-                                                        <button type="submit" class="btn btn-outline-warning btn-sm">
+                                                        <button type="submit" class="btn btn-outline-warning btn-sm me-1">
                                                             <span class="iconify" data-icon="icons8:cat-footprint"></span>
                                                         </button>
                                                     {% else %}
-                                                        <button type="submit" class="btn btn-outline-warning btn-sm">
+                                                        <button type="submit" class="btn btn-outline-warning btn-sm me-1">
                                                             <span class="iconify" data-icon="mdi:checkbox-blank-circle-outline"></span>
                                                         </button>
                                                     {% endif %}
@@ -103,11 +103,11 @@
                                                 <form action="{% url 'set_post_stars' post_id=post.id stars=3 %}" method="POST">
                                                     {% csrf_token %}
                                                     {% if stars.stars >= 3 %}
-                                                        <button type="submit" class="btn btn-outline-warning btn-sm">
+                                                        <button type="submit" class="btn btn-outline-warning btn-sm me-1">
                                                             <span class="iconify" data-icon="icons8:cat-footprint"></span>
                                                         </button>
                                                     {% else %}
-                                                        <button type="submit" class="btn btn-outline-warning btn-sm">
+                                                        <button type="submit" class="btn btn-outline-warning btn-sm me-1">
                                                             <span class="iconify" data-icon="mdi:checkbox-blank-circle-outline"></span>
                                                         </button>
                                                     {% endif %}
@@ -115,11 +115,11 @@
                                                 <form action="{% url 'set_post_stars' post_id=post.id stars=4 %}" method="POST">
                                                     {% csrf_token %}
                                                     {% if stars.stars >= 4 %}
-                                                        <button type="submit" class="btn btn-outline-warning btn-sm">
+                                                        <button type="submit" class="btn btn-outline-warning btn-sm me-1">
                                                             <span class="iconify" data-icon="icons8:cat-footprint"></span>
                                                         </button>
                                                     {% else %}
-                                                        <button type="submit" class="btn btn-outline-warning btn-sm">
+                                                        <button type="submit" class="btn btn-outline-warning btn-sm me-1">
                                                             <span class="iconify" data-icon="mdi:checkbox-blank-circle-outline"></span>
                                                         </button>
                                                     {% endif %}
@@ -127,11 +127,11 @@
                                                 <form action="{% url 'set_post_stars' post_id=post.id stars=5 %}" method="POST">
                                                     {% csrf_token %}
                                                     {% if stars.stars >= 5 %}
-                                                        <button type="submit" class="btn btn-outline-warning btn-sm">
+                                                        <button type="submit" class="btn btn-outline-warning btn-sm me-1">
                                                             <span class="iconify" data-icon="icons8:cat-footprint"></span>
                                                         </button>
                                                     {% else %}
-                                                        <button type="submit" class="btn btn-outline-warning btn-sm">
+                                                        <button type="submit" class="btn btn-outline-warning btn-sm me-1">
                                                             <span class="iconify" data-icon="mdi:checkbox-blank-circle-outline"></span>
                                                         </button>
                                                     {% endif %}
@@ -164,7 +164,7 @@
                             <textarea class="form-control" name="comment" style="height: 100px"></textarea>
                             <br>
                             <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary" type="button">Agregar comentario</button>
+                                <button type="submit" class="btn btn-primary">Agregar comentario</button>
                             </div>
                         </div>
                     </form>
@@ -181,7 +181,11 @@
                             <div class="card p-3 mt-2">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="user d-flex flex-row align-items-center">
-                                        <img src="/media/{{ comment.michi_author.profile_picture }}" width="30" class="user-img rounded-circle me-2">
+                                        {% if comment.michi_author.profile_picture %}
+                                            <img src="/media/{{ comment.michi_author.profile_picture }}" width="30" class="user-img rounded-circle me-2">
+                                        {% else %}
+                                            <img src="/media/images/no-image.jpeg" width="30" class="user-img rounded-circle me-2">
+                                        {% endif %}
                                         <span>
                                             <a href="{% url 'view_profile' user_id=comment.michi_author.id %}">
                                                 <small class="font-weight-bold text-primary">{{ comment.michi_author.nickname }}: </small>
@@ -192,24 +196,38 @@
                                     </div>
                                     <small class="text-muted">{{ comment.created_at }}</small>
                                 </div>
-                                <div class="action d-flex justify-content-between mt-2 align-items-center">
-                                    <div class="reply px-4">
-                                        {% if comment.michi_author.user.id == request.user.id %}
-                                            <form action="{% url 'delete_comment' comment_id=comment.id %}" method="POST">
-                                                {% csrf_token %}
-                                                <div class="form-floating">
-                                                    <div class="d-grid gap-2">
-                                                        <button class="btn btn-outline-warning btn-sm" type="submit">
-                                                            <span class="iconify" data-icon="ant-design:delete-filled"></span>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                            <span class="dots"></span>
-                                        {% endif %}
-                                        <small>Contestar</small>
-                                    </div>
+
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end" role="group" >
+                                    {% if comment.michi_author.user.id == request.user.id %}
+                                        <form action="{% url 'delete_comment' comment_id=comment.id %}" method="POST">
+                                            {% csrf_token %}
+                                            <button class="btn btn-outline-danger btn-sm" type="submit">
+                                                <span class="iconify" data-icon="ant-design:delete-filled"></span>
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                    <button class="btn btn-outline-warning btn-sm" onclick="ShowSubCommentDiv('subcomment{{ comment.id }}')">
+                                        <span class="iconify" data-icon="bi:reply-all-fill"></span>
+                                    </button>
                                 </div>
+
+                            <div class="container rounded mt-2" id ="subcomment{{ comment.id }}" style="border: 1px dotted black; display: none" >
+                                {% if user.is_authenticated %}
+                                        <form action="{% url 'add_comment' post_id=post.id comment_id=comment.id %}" method="POST">
+                                            {% csrf_token %}
+                                            <div class="form-floating">
+                                                <textarea class="form-control mt-2" name="comment" style="height: 100px"></textarea>
+                                                <br>
+                                                <div class="d-grid gap-2">
+                                                    <button type="submit" class="btn btn-primary mb-2">Responder comentario</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                {% else %}
+                                    <p>Para comentar debes estar logueado</p>
+                                {% endif %}
+                            </div>
+
                             </div>
 
                             {% for child_comment in comment.michicomments_set.all|dictsortreversed:"created_at" %}
@@ -217,7 +235,11 @@
                                     <div class="card p-3 ms-5 mt-2">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="user d-flex flex-row align-items-center">
-                                                <img src="/media/{{ child_comment.michi_author.profile_picture }}" width="30" class="user-img rounded-circle me-2">
+                                                {% if child_comment.michi_author.profile_picture %}
+                                                    <img src="/media/{{ child_comment.michi_author.profile_picture }}" width="30" class="user-img rounded-circle me-2">
+                                                {% else %}
+                                                    <img src="/media/images/no-image.jpeg" width="30" class="user-img rounded-circle me-2">
+                                                {% endif %}
                                                 <span>
                                                     <a href="{% url 'view_profile' user_id=child_comment.michi_author.id %}">
                                                         <small class="font-weight-bold text-primary">{{ child_comment.michi_author.nickname }}: </small>
@@ -228,22 +250,16 @@
                                             </div>
                                             <small class="text-muted">{{ child_comment.created_at }}</small>
                                         </div>
-                                        <div class="action d-flex justify-content-between mt-2 align-items-center">
-                                            <div class="reply px-4">
-                                                {% if comment.michi_author.user.id == request.user.id %}
-                                                <form action="{% url 'delete_comment' comment_id=comment.id %}" method="POST">
+
+                                        <div class="d-grid gap-2 d-md-flex justify-content-md-end" role="group" >
+                                            {% if child_comment.michi_author.user.id == request.user.id %}
+                                                <form action="{% url 'delete_comment' comment_id=child_comment.id %}" method="POST">
                                                     {% csrf_token %}
-                                                    <div class="form-floating">
-                                                        <div class="d-grid gap-2">
-                                                            <button class="btn btn-outline-warning btn-sm" type="submit">
-                                                                <span class="iconify" data-icon="ant-design:delete-filled"></span>
-                                                            </button>
-                                                        </div>
-                                                    </div>
+                                                    <button class="btn btn-outline-danger btn-sm" type="submit">
+                                                        <span class="iconify" data-icon="ant-design:delete-filled"></span>
+                                                    </button>
                                                 </form>
-                                                    <span class="dots"></span>
-                                                {% endif %}
-                                            </div>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 {% endif %}
@@ -258,4 +274,18 @@
     </div>
     <!-- Comentarios -->
 
+{% endblock %}
+
+{% block js %}
+    <script>
+        function ShowSubCommentDiv(div) {
+            var divSubComment = document.getElementById(div);
+
+            if (divSubComment.style.display === "none") {
+                divSubComment.style.display = "block";
+            } else {
+                divSubComment.style.display = "none";
+            }
+        }
+    </script>
 {% endblock %}
