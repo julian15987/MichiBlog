@@ -31,6 +31,54 @@
                     </div>
                 {% endfor %}
             </div>
+            <hr>
+
+            <div class="row">
+                <h1>Actuales: </h1>
+
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    {% for roof in roofs %}
+                        <div class="col">
+                            <div class="card border-warning">
+                                <img src="/media/images/roof.jpeg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    {% if roof.roof_name %}
+                                        <h5 class="card-title michi-color">Nombre : {{ roof.roof_name }}</h5>
+                                    {% else %}
+                                        <h5 class="card-title michi-color">Sin nombre aun</h5>
+                                    {% endif %}
+                                    <p class="card-text michi-color">
+                                        Techo {{ roof.roof_id }}
+                                        <hr class="michi-color">
+
+                                    </p>
+                                       <p class="card-text michi-color">
+                                           {{ roof.michiroofusers_set.all|length }} Michis
+                                       </p>
+                                        <ul>
+                                            {% for michi in roof.michiroofusers_set.all %}
+                                                <ul class="list-group michi-color">
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center mt-1">
+                                                        <a href="{% url 'view_profile' user_id=michi.user_id.id %}">{{ michi.user_id.nickname }}</a>
+                                                        <span class="badge bg-primary rounded-pill">
+                                                            {{ roof.michiroofchats_set.all|message_in_roofs:michi.user_id|length }}
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            {% endfor %}
+                                        </ul>
+
+                                        <div class="d-grid gap-2">
+                                            <a class="btn btn-outline-primary" href="{% url 'roof' roof_id=roof.roof_id %}" type="button">Ingresar</a>
+                                        </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
 
             <marquee scrolldelay="20" truespeed>
                 <img src="/media/images/cat-roof.gif">

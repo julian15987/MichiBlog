@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} Techo COMPLETAR {% endblock %}
+{% block title %} Techo {{ roof.roof_name }} {% endblock %}
 {% block chatsactive %} active {% endblock chatsactive %}
 
 {% block css %}
@@ -18,15 +18,71 @@
                                 class="card-header d-flex justify-content-between align-items-center michi-color p-3 text-white border-bottom-0"
                                 style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
                             <i class="fas fa-angle-left"></i>
-                            <p class="mb-0 fw-bold">Algun techo que solo pocos gatos conocen</p>
+
+                            {% if roof.michi_owner.user.id == request.user.id %}
+
+                                <form action="{% url 'set_roof_name' roof_id=roof.roof_id %}" method="POST">
+                                {% csrf_token %}
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" value="{{ roof.roof_name }}" name="roof_name">
+                                        <button class="btn btn-primary" id="roof-name-submit" type="submit">Actualizar</button>
+                                    </div>
+                                </form>
+
+                            {% else %}
+                                {% if roof.roof_name %}
+                                    <p class="mb-0 fw-bold">{{ roof.roof_name }}</p>
+                                {% else %}
+                                    <p class="mb-0 fw-bold">Algun techo que solo pocos gatos conocen</p>
+                                {% endif %}
+                            {% endif %}
+
                             <i class="fas fa-times"></i>
                         </div>
 
                         <div class="card-body" >
 
+                            <!-- Mensajes -->
                             <div class="conteiner pe-3" id="chat-log" style="height: 100%; overflow-y: scroll;" >
 
+                                {% if old_messages %}
+                                <div >
+                                    {% for message in old_messages %}
+                                        {% if message.michi_author.user.id == request.user.id %}
+                                            <div class="d-flex flex-row justify-content-end mb-4">
+                                                <div class="p-3 me-3 border michi-color chat-text-right" >
+                                                    <p class="small mb-0 text-break">{{ message.message }}</p>
+                                                    <p class="text-muted text-end mb-0 mt-2" style="font-size: xx-small">Enviado el {{ message.created_at }}</p>
+                                                    <p class="text-muted text-end mb-0 mt-2" style="font-size: xx-small">Por
+                                                        <a href="{% url 'view_profile' user_id=message.michi_author.id %}">{{ message.michi_author.nickname }}</a></p>
+                                                </div>
+                                                {% if message.michi_author.profile_picture %}
+                                                    <img class="img-responsive" src="/media/{{ message.michi_author.profile_picture }}" alt="avatar 1">
+                                                {% else %}
+                                                    <img class="img-responsive" src="/media/images/no-image.jpeg" alt="avatar 1">
+                                                {% endif %}
+                                            </div>
+                                        {% else %}
+                                            <div class="d-flex flex-row justify-content-start mb-4">
+                                                {% if message.michi_author.profile_picture %}
+                                                    <img class="img-responsive" src="/media/{{ message.michi_author.profile_picture }}" alt="avatar 1">
+                                                {% else %}
+                                                    <img class="img-responsive" src="/media/images/no-image.jpeg" alt="avatar 1">
+                                                {% endif %}
+                                                <div class="p-3 ms-3 michi-color chat-text-left">
+                                                    <p class="small mb-0 text-break">{{ message.message }}</p>
+                                                    <p class="text-muted text-start mb-0 mt-2" style="font-size: xx-small">Enviado el {{ message.created_at }}</p>
+                                                    <p class="text-muted text-start mb-0 mt-2" style="font-size: xx-small">Por
+                                                        <a href="{% url 'view_profile' user_id=message.michi_author.id %}">{{ message.michi_author.nickname }}</a></p>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+
                             </div>
+                            <!-- Mensajes -->
                             <hr>
                             <div class="form-outline">
                                 <textarea class="form-control" id="chat-message-input" rows="4"></textarea>
@@ -34,6 +90,11 @@
                                     <button id="chat-message-submit"
                                             class="btn btn-outline-primary mt-2"
                                             type="button">Enviar</button>
+
+                                    <a id="exit_chat"
+                                            class="btn btn-outline-danger mt-2"
+                                        href="{% url 'create_roof' %}">Salir</a>
+                                            type="button">Salir</a>
                                 </div>
 
                             </div>
