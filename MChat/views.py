@@ -7,7 +7,16 @@ from django.contrib.auth.decorators import login_required
 # Roofs
 @login_required(login_url='/login')
 def create_roof(request):
-    return render(request, 'chat/create_roof.html')
+
+    options = {
+        'pescado': 'ion:fish-sharp',
+        'garrita': 'icons8:cat-footprint',
+        'github': 'akar-icons:octocat-fill',
+        'tom': 'simple-icons:apachetomcat',
+        'raton': 'emojione-monotone:mouse-face',
+        'pelota': 'ph:soccer-ball-bold'
+    }
+    return render(request, 'chat/create_roof.html', {'options': options})
 
 
 @login_required(login_url='/login')
