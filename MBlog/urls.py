@@ -18,6 +18,7 @@ urlpatterns = [
     path('category/add', views.add_category, name='add_category'),
     path('category/<int:category_id>/delete', views.delete_category, name='delete_category'),
     path('category/<int:category_id>/edit', views.edit_category, name='edit_category'),
+    path('michis', views.get_michis, name='michis'),
 
     # logins
     path('login', views.login_request, name='login'),

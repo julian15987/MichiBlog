@@ -2,7 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from MChat.models import MichiRoofs, MichiRoofUsers
 from django.template.defaulttags import register
-# Create your views here.
+
+import MChat.constants as constants
+
+from random import randint
 
 
 @register.filter
@@ -70,7 +73,9 @@ def delete_roof(request, roof_id):
     except MichiRoofUsers.DoesNotExist:
         return redirect('/chat/')
 
-    if request.user.michiprofile == michi_roof.michi_owner:
+    if request.user.michiprofile == michi_roof.michi_owner or request.user.is_superuser:
         michi_roof.delete()
 
     return redirect('/chat/')
+
+

@@ -72,6 +72,13 @@ function epochToJsDate(ts){
     return new Date(ts*1000);
 }
 
+function scrollToBottom() {
+    const chatLog = document.getElementById('chat-log');
+    chatLog.scrollTop = chatLog.scrollHeight;
+}
+
+
+
 chatSocket.onclose = function(e) {
     console.error('Chat socket closed unexpectedly');
 };
@@ -100,3 +107,4 @@ document.querySelector('#chat-message-submit').onclick = function(e) {
     }));
     messageInputDom.value = '';
 };
+

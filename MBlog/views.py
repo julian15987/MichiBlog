@@ -191,6 +191,13 @@ def edit_category(request, category_id):
     return render(request, "blog/edit_category.html", {'form': form, 'category_id':category_id})
 
 
+# Usuarios
+@login_required(login_url='/login')
+def get_michis(request):
+    michis = MichiProfile.objects.all()
+    return render(request, 'blog/michis.html', {'michis': michis})
+
+
 # Logins
 def login_request(request):
     if request.method == "POST":

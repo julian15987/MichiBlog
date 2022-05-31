@@ -1,5 +1,4 @@
 # Blogs
-
 POST_PER_PAGE: int = 3
 STARS_FOR_FAVOURITE: int = 3
 

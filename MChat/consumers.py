@@ -1,4 +1,3 @@
-import datetime
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from MChat.models import MichiRoofs, MichiRoofUsers, MichiRoofChats
@@ -10,12 +9,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def create_roof_add_michi(self, roof_id):
-
         try:
             new_roof = MichiRoofs.objects.get(roof_id=roof_id)
         except MichiRoofs.DoesNotExist:
             new_roof = MichiRoofs.objects.create(roof_id=roof_id, michi_owner=self.scope['user'].michiprofile)
-
         MichiRoofUsers.objects.get_or_create(roof_id=new_roof, user_id=self.scope['user'].michiprofile)
 
     @database_sync_to_async

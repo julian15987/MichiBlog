@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block adminactive %} active {% endblock adminactive %}
+
+{% block title %} Categorias {% endblock %}
+
+{% block body %}
+
+    <div class="container ">
+        <div class="table-responsive " >
+            <table class="table table-fit table-light mt-5 table-striped" >
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Nick</th>
+                        <th scope="col">Cantidad de posteos</th>
+                        <th scope="col">Activo?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for michi in michis %}
+                        <tr>
+                            <th scope="row">{{ michi.id }}</th>
+                            <td>{{ michi.user.username }}</td>
+                            <td>{{ michi.user.email }}</td>
+                            <td>{{ michi.nickname }}</td>
+                            <td>{{ michi.michipost_set.all|length }}</td>
+                            <td>{% if michi.erased %}NO{% else %}SI{% endif %}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a type="button" href="{% url 'add_category' %}" class="btn btn-success justify-content-md-end">
+                <p class="mb-0">Agregar</p>
+            </a>
+        </div>
+    </div>
+{% endblock %}

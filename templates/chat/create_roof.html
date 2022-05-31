@@ -38,8 +38,11 @@
             <hr>
 
             <div class="row">
-                <h1>Techos encontrados: </h1>
-
+                {% if roofs %}
+                    <h1>Techos encontrados: </h1>
+                {% else %}
+                    <h1>Aun no se encontraron techos</h1>
+                {% endif %}
                 <div class="row row-cols-1 row-cols-md-5 g-4">
                     {% for roof in roofs %}
                         <div class="col">
