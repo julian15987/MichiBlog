@@ -11,10 +11,10 @@
         <div class="row">
             <div class="col-10">
                 <h3 class="">{{ post.subtitle }}</h3>
-                <p class="">{{ post.category.category }}</p>
             </div>
             <div class="col-2 text-muted">
                 <p>Por <a href="{% url 'view_profile' user_id=post.michi_author.id %}">{{ post.michi_author.nickname }}</a> </p>
+                <p>En "{% if post.category %}{{ post.category.category }}{% else %}Sin categoria{% endif %}"</p>
             </div>
         </div>
         <div class="row">
@@ -52,7 +52,7 @@
             </div>
 
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                {% if post.michi_author.user.id == request.user.id %}
+                {% if post.michi_author.user.id == request.user.id or request.user.is_superuser %}
                     <form action="{% url 'delete_post' post_id=post.id %}" method="POST">
                         {% csrf_token %}
                         <button class="btn btn-outline-danger">Eliminar post</button>
@@ -201,7 +201,7 @@
                                 </div>
 
                                 <div class="d-grid gap-2 d-md-flex justify-content-md-end" role="group" >
-                                    {% if comment.michi_author.user.id == request.user.id %}
+                                    {% if comment.michi_author.user.id == request.user.id or request.user.is_superuser %}
                                         <form action="{% url 'delete_comment' comment_id=comment.id %}" method="POST">
                                             {% csrf_token %}
                                             <button class="btn btn-outline-danger btn-sm" type="submit">
@@ -255,7 +255,7 @@
                                         </div>
 
                                         <div class="d-grid gap-2 d-md-flex justify-content-md-end" role="group" >
-                                            {% if child_comment.michi_author.user.id == request.user.id %}
+                                            {% if child_comment.michi_author.user.id == request.user.id or request.user.is_superuser %}
                                                 <form action="{% url 'delete_comment' comment_id=child_comment.id %}" method="POST">
                                                     {% csrf_token %}
                                                     <button class="btn btn-outline-danger btn-sm" type="submit">

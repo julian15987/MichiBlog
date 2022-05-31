@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block adminactive %} active {% endblock adminactive %}
+
+{% block title %} Categorias {% endblock %}
+
+{% block body %}
+
+    <div class="container ">
+        <div class="table-responsive " >
+            <table class="table table-fit table-light mt-5 table-striped" >
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category in categories %}
+                        <tr>
+                            <th scope="row">{{ category.id }}</th>
+                            <td>{{ category.category }}</td>
+                            <td >
+                                <div class="d-flex flex-row">
+                                    <div>
+                                        <a type="button" href="{% url 'edit_category' category_id=category.id %}" class="btn btn-warning">
+                                            <span class="iconify" data-icon="ic:baseline-mode-edit"></span>
+                                        </a>
+                                    </div>
+
+                                    <div>
+                                        <form action="{% url 'delete_category' category_id=category.id %}" method="POST">
+                                            {% csrf_token %}
+                                                <button type="submit" class="btn btn-danger ms-3">
+                                                    <span class="iconify" data-icon="ic:baseline-delete"></span>
+                                                </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a type="button" href="{% url 'add_category' %}" class="btn btn-success justify-content-md-end">
+                <p class="mb-0">Agregar</p>
+            </a>
+        </div>
+
+
+{% endblock %}

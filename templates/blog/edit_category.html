@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block adminactive %} active {% endblock adminactive %}
+
+{% block title %} Modificar categoria {% endblock %}
+
+{% block body %}
+
+    <form action="{% url 'edit_category' category_id=category_id %}" enctype="multipart/form-data" method="POST">
+        {% csrf_token %}
+        <h1 class="text-center">Agregar nueva categoria</h1>
+
+        <div class="col-md-12 mt-2">
+            <label class="form-label">Nombre: </label> {{ form.category }}
+        </div>
+
+        <div class="col-12 mt-2 mb-5">
+            <button type="submit" class="btn btn-primary float-end">Agregar Categoria</button>
+        </div>
+    </form>
+{% endblock %}

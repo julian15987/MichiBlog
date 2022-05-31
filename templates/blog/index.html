@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 
-{% block homeactive %} active {% endblock homeactive %}
+{% block homeactive %} {% if not favourites %}active{% endif %} {% endblock homeactive %}
+{% block favoriteactive %} {% if favourites %}active{% endif %} {% endblock favoriteactive %}
 
 {% block title %} Pagina Principal {% endblock %}
 
 {% block body %}
+
 
     {% if not posts %}
         <div class="text-center">
@@ -16,7 +18,7 @@
     {% for post in posts %}
         <div class="card blog-post m-3">
 
-            {% if post.michi_author.user.id == request.user.id %}
+            {% if post.michi_author.user.id == request.user.id  %}
                 <p class="text-end me-5 mt-2"><b>Post propio</b></p>
             {% else %}
                 <p class="text-end me-5 mt-2"><b>Por : <a class="michi-color" href="{% url 'view_profile' user_id=post.michi_author.id %}">{{ post.michi_author.nickname }}</a></b></p>

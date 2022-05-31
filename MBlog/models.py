@@ -30,7 +30,7 @@ class MichiPost(models.Model):
     header_image = models.ImageField(upload_to='post_pictures', blank=True, null=True)
     content_image = models.ImageField(upload_to='post_pictures', blank=True, null=True)
     content = RichTextField()
-    category = models.ForeignKey('PostCategories', on_delete=models.CASCADE, blank=True, null=True)
+    category = models.ForeignKey('PostCategories', on_delete=models.SET_NULL, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     erased = models.BooleanField(default=False)
 

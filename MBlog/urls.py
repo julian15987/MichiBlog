@@ -13,6 +13,12 @@ urlpatterns = [
     path('post/<int:post_id>/comment/<int:comment_id>/', views.add_comment, name='add_comment'),
     path('post/<int:post_id>/star/<int:stars>/', views.set_post_stars, name='set_post_stars'),
 
+    # super user
+    path('categories', views.get_categories, name='categories'),
+    path('category/add', views.add_category, name='add_category'),
+    path('category/<int:category_id>/delete', views.delete_category, name='delete_category'),
+    path('category/<int:category_id>/edit', views.edit_category, name='edit_category'),
+
     # logins
     path('login', views.login_request, name='login'),
     path('logout', views.logout_request, name='logout'),

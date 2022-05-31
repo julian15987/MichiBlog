@@ -32,9 +32,11 @@
     <div id="mainNavigation">
         <nav role="navigation">
             <div class="text-center border-bottom">
-                <img src="/media/images/logo-header.svg" alt="" class="img-fluid img-header mx-3">
-                <img src="/media/images/logo-header.svg" alt="" class="img-fluid img-header mx-3">
-                <img src="/media/images/logo-header.svg" alt="" class="img-fluid img-header mx-3">
+                {% if request.user.is_superuser %}
+                    <img src="/media/images/logo-admin.jpeg" alt="" class="img-fluid img-header mx-3">
+                {% else %}
+                    <img src="/media/images/logo-header.svg" alt="" class="img-fluid img-header mx-3">
+                {% endif %}
             </div>
         </nav>
         <div class="navbar-expand-md">
@@ -61,8 +63,8 @@
                         <li class="nav-item">
                             <a class="nav-link {% block favoriteactive %} {% endblock favoriteactive %}" href="{% url 'fav_michi_posts' %}">Mis favoritos</a>
                         </li>
-                        <li class="nav-item dropdown {% block michiprofileactive %} {% endblock michiprofileactive %}">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                        <li class="nav-item dropdown ">
+                            <a class="nav-link dropdown-toggle {% block michiprofileactive %} {% endblock michiprofileactive %}" href="#" id="navbarDropdownMenuLink" role="button"
                                data-bs-toggle="dropdown" aria-expanded="false">
                                 Perfil {{request.user}}
                             </a>
@@ -72,6 +74,18 @@
                                 <li><a class="dropdown-item" href="{% url 'logout' %}">LogOut</a></li>
                             </ul>
                         </li>
+                        {% if request.user.is_superuser %}
+                       <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle {% block adminactive %} {% endblock adminactive %}" href="#" id="navbarDropdownMenuLink" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                Administracion
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <li><a class="dropdown-item" href="{% url 'categories' %}">Categorias</a></li>
+                            </ul>
+                        </li>
+                        {% endif %}
+
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link {% block registeractive %} {% endblock registeractive %}" href="{% url 'register' %}">Registrarse</a>

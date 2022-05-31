@@ -11,8 +11,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 
-from .models import MichiPost, MichiProfile, MichiComments, MichiStars
-from .forms import MichiPostForm, MichiProfileForm
+from .models import MichiPost, MichiProfile, MichiComments, MichiStars, PostCategories
+from .forms import MichiPostForm, MichiProfileForm, PostCategoriesForm
 import MBlog.constants as constants
 
 
@@ -30,7 +30,7 @@ def michi_posts(request):
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
 
-    return render(request, 'blog/index.html', {'posts': posts})
+    return render(request, 'blog/index.html', {'posts': posts, 'favourites': False})
 
 
 @login_required(login_url='/login')
@@ -40,7 +40,7 @@ def fav_michi_posts(request):
     posts = []
     for post in star_posts:
         posts.append(post.michi_post)
-    return render(request, 'blog/index.html', {'posts': posts})
+    return render(request, 'blog/index.html', {'posts': posts, 'favourites': True})
 
 
 def post_detail(request, post_id):
@@ -140,6 +140,55 @@ def delete_post(request, post_id):
             return redirect("/post/" + str(post_id) + '/')
         post.delete()
     return redirect("/")
+
+
+# Categories
+@login_required(login_url='/login')
+def get_categories(request):
+    categories = PostCategories.objects.all()
+    return render(request, 'blog/categories.html', {'categories': categories})
+
+
+@login_required(login_url='/login')
+def add_category(request):
+    if request.method == "POST":
+        form = PostCategoriesForm(data=request.POST)
+
+        if form.is_valid():
+            post_category = form.save(commit=True)
+            messages.success(request, 'La categoria se agrego al MichiBlog !')
+            return redirect("/categories")
+    else:
+        form = PostCategoriesForm()
+    return render(request, "blog/add_category.html", {'form': form})
+
+
+@login_required(login_url='/login')
+def delete_category(request, category_id):
+    if request.method == "POST":
+        category = PostCategories.objects.get(id=category_id)
+        if category_id is None:
+            messages.error(request, "La categoria no puede estar vacio")
+            return redirect("/categories")
+        category.delete()
+        messages.success(request, "Se elimina la categoria")
+    return redirect("/categories")
+
+
+@login_required(login_url='/login')
+def edit_category(request, category_id):
+    if request.method == "POST":
+        category = PostCategories.objects.get(id=category_id)
+        form = PostCategoriesForm(data=request.POST, instance=category)
+
+        if form.is_valid():
+            post_category = form.save(commit=True)
+            messages.success(request, 'Se modifico la categoria')
+            return redirect("/categories")
+    else:
+        category = PostCategories.objects.get(id=category_id)
+        form = PostCategoriesForm(instance=category)
+    return render(request, "blog/edit_category.html", {'form': form, 'category_id':category_id})
 
 
 # Logins

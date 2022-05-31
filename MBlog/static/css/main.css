@@ -36,6 +36,9 @@ body{
 a.dropdown-toggle {
   color:var(--first-color-light) !important
 }
+a.dropdown-toggle .active{
+  color:var(--white-color)
+}
 a.dropdown-toggle:hover {
   color:var(--white-color) !important
 }
@@ -49,10 +52,14 @@ a.dropdown-item:hover {
   color:var(--white-color)
 }
 .nav-item .active{
-  color:var(--white-color)
+  color:var(--white-color) !important;
 }
 .nav-item{
   min-width:12vw;
+}
+
+.active{
+    color:var(--white-color) !important;
 }
 
 .blog-post{
@@ -65,7 +72,7 @@ a.dropdown-item:hover {
 .img-header{
     width:15%;
     height:auto;
-    border-radius: 50px;
+    border-radius: 100%;
 }
 
 footer{

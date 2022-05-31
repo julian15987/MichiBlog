@@ -79,7 +79,7 @@
 
                                         <div class="d-grid gap-2">
                                             <a class="btn btn-outline-primary" href="{% url 'roof' roof_id=roof.roof_id %}" type="button">Ingresar</a>
-                                            {% if roof.michi_owner.user.id == request.user.id %}
+                                            {% if roof.michi_owner.user.id == request.user.id or request.user.is_superuser %}
                                                 <a class="btn btn-outline-danger" href="{% url 'delete_roof' roof_id=roof.roof_id %}" type="button">Eliminar chat</a>
                                             {% endif %}
                                         </div>
