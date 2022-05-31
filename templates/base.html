@@ -63,17 +63,6 @@
                         <li class="nav-item">
                             <a class="nav-link {% block favoriteactive %} {% endblock favoriteactive %}" href="{% url 'fav_michi_posts' %}">Mis favoritos</a>
                         </li>
-                        <li class="nav-item dropdown ">
-                            <a class="nav-link dropdown-toggle {% block michiprofileactive %} {% endblock michiprofileactive %}" href="#" id="navbarDropdownMenuLink" role="button"
-                               data-bs-toggle="dropdown" aria-expanded="false">
-                                Perfil {{request.user}}
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <li><a class="dropdown-item" href="{% url 'view_profile' user_id=user.id %}">Ver</a></li>
-                                <li><a class="dropdown-item" href="{% url 'edit_profile' %}">Editar</a></li>
-                                <li><a class="dropdown-item" href="{% url 'logout' %}">LogOut</a></li>
-                            </ul>
-                        </li>
                         {% if request.user.is_superuser %}
                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle {% block adminactive %} {% endblock adminactive %}" href="#" id="navbarDropdownMenuLink" role="button"
@@ -86,6 +75,18 @@
                             </ul>
                         </li>
                         {% endif %}
+                        <li class="nav-item dropdown ">
+                            <a class="nav-link dropdown-toggle {% block michiprofileactive %} {% endblock michiprofileactive %}" href="#" id="navbarDropdownMenuLink" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                Perfil {{request.user}}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <li><a class="dropdown-item" href="{% url 'view_profile' user_id=user.id %}">Ver</a></li>
+                                <li><a class="dropdown-item" href="{% url 'edit_profile' %}">Editar</a></li>
+                                <li><a class="dropdown-item" href="{% url 'logout' %}">LogOut</a></li>
+                            </ul>
+                        </li>
+
 
                     {% else %}
                         <li class="nav-item">

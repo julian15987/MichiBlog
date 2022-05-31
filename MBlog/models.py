@@ -54,7 +54,7 @@ class PostCategories(models.Model):
     category = models.CharField(max_length=50)
 
     def __str__(self):
-        return f'Category {self.category}'
+        return f'{self.category}'
 
 
 class MichiComments(models.Model):
