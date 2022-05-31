@@ -55,7 +55,11 @@ def post_detail(request, post_id):
 
     count_stars = MichiStars.objects.filter(michi_post=post).aggregate(Sum('stars'))
 
-    return render(request, 'blog/post_detail.html', {'post': post, 'stars': stars, 'count_stars': count_stars['stars__sum'], 'favorite': constants.STARS_FOR_FAVOURITE})
+    return render(request, 'blog/post_detail.html',
+                  {'post': post,
+                   'stars': stars,
+                   'count_stars': count_stars['stars__sum'],
+                   'favorite': constants.STARS_FOR_FAVOURITE})
 
 
 @login_required(login_url='/login')
@@ -85,11 +89,15 @@ def add_posts(request):
             messages.error(request, "El perfil del michi tiene que estar creado para poder crear un post")
             return redirect("/")
 
+        if michi_author.erased:
+            messages.error(request, "El perfil se encuentra desactivado")
+            return redirect("/")
+
         if form.is_valid():
             michi_post = form.save(commit=False)
             michi_post.michi_author = michi_author
             michi_post.save()
-            messages.success(request, 'El MichiPost se agrego al MichiBlog !')
+            messages.success(request, 'El MichiPost se agrego al MichiBlog')
             return redirect("/")
     else:
         form = MichiPostForm()
@@ -108,6 +116,10 @@ def add_comment(request, post_id, comment_id=None):
 
         if comment == "":
             messages.error(request, "El comentario no puede estar vacio")
+            return redirect("/post/" + str(post_id) + '/')
+
+        if request.user.michiprofile.erased:
+            messages.error(request, "El perfil se encuentra desactivado")
             return redirect("/post/" + str(post_id) + '/')
 
         michi_post = MichiPost.objects.get(id=post_id)
@@ -156,7 +168,7 @@ def add_category(request):
 
         if form.is_valid():
             post_category = form.save(commit=True)
-            messages.success(request, 'La categoria se agrego al MichiBlog !')
+            messages.success(request, 'La categoria se agrego al MichiBlog')
             return redirect("/categories")
     else:
         form = PostCategoriesForm()
@@ -168,7 +180,7 @@ def delete_category(request, category_id):
     if request.method == "POST":
         category = PostCategories.objects.get(id=category_id)
         if category_id is None:
-            messages.error(request, "La categoria no puede estar vacio")
+            messages.error(request, "La categoria no puede estar vacia")
             return redirect("/categories")
         category.delete()
         messages.success(request, "Se elimina la categoria")
@@ -208,9 +220,9 @@ def login_request(request):
 
         if user is not None:
             login(request, user)
-            messages.success(request, "Successfully Logged In")
+            messages.success(request, "Ingreso correctamente")
         else:
-            messages.error(request, "Invalid Credentials")
+            messages.error(request, "Usuario/Contraseña invalido")
             return redirect("/login")
         return redirect("/")
 
@@ -220,7 +232,7 @@ def login_request(request):
 @login_required(login_url='/login')
 def logout_request(request):
     logout(request)
-    messages.success(request, "Successfully logged out")
+    messages.success(request, "Se deslogueo correctamente")
     return redirect('/')
 
 
@@ -256,7 +268,7 @@ def edit_profile(request):
             if not michi_profile.profile_picture:
                 michi_profile.profile_picture = img
             michi_profile.save()
-            messages.success(request, "Successfully updated profile")
+            messages.success(request, "Se actualizo correctamente")
             return redirect("/view_profile/" + str(request.user.id))
     else:
         form = MichiProfileForm()
@@ -278,7 +290,7 @@ def register(request):
         nick = request.POST['nick']
 
         if password1 != password2:
-            messages.error(request, "Passwords do not match.")
+            messages.error(request, "Las contraseñas no coinciden.")
             return redirect('/register')
 
         try:
@@ -288,7 +300,7 @@ def register(request):
             michi_profile.save()
             return render(request, 'login.html')
         except Exception as e:
-            messages.error(request, "Username or email already exists.")
+            messages.error(request, "El usuario o mail ya existe.")
             return redirect('/register')
     return render(request, "register.html")
 

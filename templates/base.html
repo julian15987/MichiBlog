@@ -54,15 +54,17 @@
                     </li>
 
                     {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link {% block add_posts_active %} {% endblock add_posts_active %}" href="{% url 'add_posts' %}">Agregar Blog</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% block chatsactive %} {% endblock chatsactive %}" href="{% url 'create_roof' %}">Chats</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% block favoriteactive %} {% endblock favoriteactive %}" href="{% url 'fav_michi_posts' %}">Mis favoritos</a>
-                        </li>
+                        {% if not user.michiprofile.erased %}
+                            <li class="nav-item">
+                                <a class="nav-link {% block add_posts_active %} {% endblock add_posts_active %}" href="{% url 'add_posts' %}">Agregar Blog</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% block chatsactive %} {% endblock chatsactive %}" href="{% url 'create_roof' %}">Chats</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {% block favoriteactive %} {% endblock favoriteactive %}" href="{% url 'fav_michi_posts' %}">Mis favoritos</a>
+                            </li>
+                        {% endif %}
                         {% if request.user.is_superuser %}
                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle {% block adminactive %} {% endblock adminactive %}" href="#" id="navbarDropdownMenuLink" role="button"

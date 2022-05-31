@@ -3,9 +3,9 @@ from django.contrib.auth.decorators import login_required
 from MChat.models import MichiRoofs, MichiRoofUsers
 from django.template.defaulttags import register
 
-import MChat.constants as constants
+from django.contrib import messages
 
-from random import randint
+import MChat.constants as constants
 
 
 @register.filter
@@ -16,6 +16,11 @@ def message_in_roofs(michi_roof_chats, michi_author):
 # Roofs
 @login_required(login_url='/login')
 def create_roof(request):
+
+    if request.user.michiprofile.erased:
+        messages.error(request, "El perfil se encuentra desactivado")
+        return redirect("/")
+
     options = {
         'pescado': 'ion:fish-sharp',
         'garrita': 'icons8:cat-footprint',
@@ -32,6 +37,9 @@ def create_roof(request):
 
 @login_required(login_url='/login')
 def roof(request, roof_id):
+
+    if request.user.michiprofile.erased:
+        return redirect("/")
 
     try:
         roof_obj = MichiRoofs.objects.get(roof_id=roof_id)

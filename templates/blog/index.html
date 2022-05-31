@@ -7,11 +7,10 @@
 
 {% block body %}
 
-
     {% if not posts %}
         <div class="text-center">
             <p class="text-center">No hay post aun.</p>
-            <img src="https://http.cat/204" class="card-img-top img-post-seemore" alt="...">
+            <img src="https://http.cat/204" class="card-img-top" alt="...">
         </div>
     {% endif %}
 
@@ -92,11 +91,9 @@
                 {% else %}
                     <a type="button" class="btn btn-outline-secondary disabled" href="#">Siguiente</a>
                 {% endif %}
-
             </div>
         {% endif %}
     <!-- Paginacion -->
     </div>
-
 
 {% endblock %}
